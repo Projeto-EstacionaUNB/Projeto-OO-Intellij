@@ -24,7 +24,7 @@ public class Main {
         System.out.println("|   Opção 2 - Entrar em um estacioanamento     |");
         System.out.println("|   Opção 3 - Cadastrar Eventos         |");
         System.out.println("|   Opção 4 - Listar Estacionamentos    |");
-        System.out.println("|   Opção 6 - Sair          |");
+        System.out.println("|   Opção 5 - Sair          |");
 
         int operacao = escanear.nextInt();
 
