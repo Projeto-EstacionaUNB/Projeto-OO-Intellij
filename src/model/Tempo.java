@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDateTime;
+
 public class Tempo extends Acesso {
     private double valorFracao;
     private int desconto;
