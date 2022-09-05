@@ -1,5 +1,6 @@
 package view;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,47 +16,76 @@ public class Main {
 
     public static void operacoes() {
         Scanner escanear = new Scanner(System.in);
-        System.out.println("------------------------------------------------------");
-        System.out.println("-------------Bem vindos ao Sistema de Estacionamento ---------------");
-        System.out.println("------------------------------------------------------");
-        System.out.println("***** Selecione uma ação que deseja realizar *****");
-        System.out.println("------------------------------------------------------");
-        System.out.println("|   Opção 1 - Cadastrar Estacionamento   |");
-        System.out.println("|   Opção 2 - Entrar em um estacioanamento     |");
-        System.out.println("|   Opção 3 - Cadastrar Eventos         |");
-        System.out.println("|   Opção 4 - Listar Estacionamentos    |");
-        System.out.println("|   Opção 5 - Sair          |");
+        int operacao=0;
+        do{
 
-        int operacao = escanear.nextInt();
+            System.out.println("------------------------------------------------------");
+            System.out.println("-------------Bem vindos ao Sistema de Estacionamento ---------------");
+            System.out.println("------------------------------------------------------");
+            System.out.println("***** Selecione uma ação que deseja realizar *****");
+            System.out.println("------------------------------------------------------");
+            System.out.println("|   Opção 1 - Cadastrar Estacionamento   |");
+            System.out.println("|   Opção 2 - Entrar em um estacioanamento     |");
+            System.out.println("|   Opção 3 - Cadastrar Eventos         |");
+            System.out.println("|   Opção 4 - Listar Estacionamentos    |");
+            System.out.println("|   Opção 5 - Sair          |");
 
-        switch (operacao){
+            operacao = escanear.nextInt();
 
-            case 1:
+            Estacionamento tempEstacionamento;
+            Contratante tempContrato;
 
-                break;
+            switch (operacao){
+                case 1:
+                    System.out.println("Qual o nome do contratante desse Estacionamento ?");
+                    String nomeContratante = escanear.next();
 
-            case 2:
+                    System.out.println("Qual o valor retornará ao prestador do serviço ? ");
+                    int retornoPorcento = escanear.nextInt();
 
-                break;
+                    tempContrato = new Contratante(nomeContratante,retornoPorcento,0);
 
-            case 3:
+                    System.out.println("Qual a capacidade do estacionamento ?");
+                    int qtdEstacionamento = escanear.nextInt();
 
-                break;
+                    System.out.println("Qual a horário que o mesmo abre ?");
+                    String horaAbre = escanear.next();
 
-            case 4:
+                    System.out.println("Qual a horário que o mesmo fecha ?");
+                    String horaFecha = escanear.next();
 
-                break;
+                    List<Acesso> tempAcess = new ArrayList<>();
 
-            case 5:
-                System.out.println("Obrigado por usar o sistema :) ");
-                System.exit(0);
-                break;
+                    tempEstacionamento = new Estacionamento(qtdEstacionamento, horaAbre,horaFecha, tempContrato,tempAcess);
+                    if(!tempEstacionamento.equals(null)){
+                        System.out.println("Cadastrado com sucesso!");
+                        System.out.println(tempEstacionamento.toString());
+                    }
+                    break;
 
-            default:
-                System.out.println("Opção inválida");
-                operacoes();
-                break;
-        }
+                case 2:
+
+                    break;
+
+                case 3:
+
+                    break;
+
+                case 4:
+
+                    break;
+
+                case 5:
+                    System.out.println("Obrigado por usar o sistema :) ");
+                    System.exit(0);
+                    break;
+
+                default:
+                    System.out.println("Opção inválida");
+                    operacoes();
+                    break;
+            }
+        }while(operacao !=5);
         escanear.close();
     }
 
