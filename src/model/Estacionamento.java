@@ -3,23 +3,36 @@ package model;
 import java.util.List;
 
 public class Estacionamento {
+    private String nomeEstacionamento;
     private int capacidade;
     private String horaAbertura;
     private String horaFechamento;
 
     private Contratante contratato;
 
+    private List<Evento> eventos;
+
     private List<Acesso> acessoEstacionamento;
 
     public Estacionamento() {
     }
 
-    public Estacionamento(int capacidade, String horaAbertura, String horaFechamento, Contratante contratato, List<Acesso> acessoEstacionamento) {
+    public Estacionamento(String nomeEstacionamento, int capacidade, String horaAbertura, String horaFechamento, Contratante contratato, List<Evento> eventos, List<Acesso> acessoEstacionamento) {
+        this.nomeEstacionamento = nomeEstacionamento;
         this.capacidade = capacidade;
         this.horaAbertura = horaAbertura;
         this.horaFechamento = horaFechamento;
         this.contratato = contratato;
+        this.eventos = eventos;
         this.acessoEstacionamento = acessoEstacionamento;
+    }
+
+    public String getNomeEstacionamento() {
+        return nomeEstacionamento;
+    }
+
+    public void setNomeEstacionamento(String nomeEstacionamento) {
+        this.nomeEstacionamento = nomeEstacionamento;
     }
 
     public int getCapacidade() {
@@ -54,6 +67,14 @@ public class Estacionamento {
         this.contratato = contratato;
     }
 
+    public List<Evento> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(List<Evento> eventos) {
+        this.eventos = eventos;
+    }
+
     public List<Acesso> getAcessoEstacionamento() {
         return acessoEstacionamento;
     }
@@ -62,6 +83,7 @@ public class Estacionamento {
         this.acessoEstacionamento = acessoEstacionamento;
     }
 
+
     public void pesquisarEstacionamento(){
 
     }
@@ -69,10 +91,13 @@ public class Estacionamento {
     @Override
     public String toString() {
         return "Estacionamento{" +
-                "capacidade=" + capacidade +
+                "nomeEstacionamento='" + nomeEstacionamento + '\'' +
+                ", capacidade=" + capacidade +
                 ", horaAbertura='" + horaAbertura + '\'' +
                 ", horaFechamento='" + horaFechamento + '\'' +
                 ", contratato=" + contratato +
+                ", eventos=" + eventos +
+                ", acessoEstacionamento=" + acessoEstacionamento +
                 '}';
     }
 }
