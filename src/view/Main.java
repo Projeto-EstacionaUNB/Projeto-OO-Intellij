@@ -101,8 +101,8 @@ public class Main {
         System.out.println("------------------------------------------------------");
         System.out.println("|   Opção 1 - Cadastrar Acesso   |");
         System.out.println("|   Opção 2 - Listar Acesso   |");
-        System.out.println("|   Opção 3 - Listar Acesso   |");
-        System.out.println("|   Opção 4 - Adicionar Eventos     |");
+        System.out.println("|   Opção 3 - Adicionar Eventos   |");
+        System.out.println("|   Opção 4 - Alterar Dados Estacionamentos     |");
         System.out.println("|   Opção 5 - Sair          |");
         int opcao = esc.nextInt();
         return opcao;
