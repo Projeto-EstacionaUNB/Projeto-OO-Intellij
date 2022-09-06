@@ -102,8 +102,9 @@ public class Main {
         System.out.println("|   Opção 1 - Cadastrar Acesso   |");
         System.out.println("|   Opção 2 - Listar Acesso   |");
         System.out.println("|   Opção 3 - Adicionar Eventos   |");
-        System.out.println("|   Opção 4 - Alterar Dados Estacionamentos     |");
-        System.out.println("|   Opção 5 - Sair          |");
+        System.out.println("|   Opção 4 - Alterar Dados de Eventos     |");
+        System.out.println("|   Opção 5 - Alterar Dados Estacionamentos     |");
+        System.out.println("|   Opção 6 - Sair          |");
         int opcao = esc.nextInt();
         return opcao;
     }
@@ -179,7 +180,6 @@ public class Main {
                         case 1:
                             // Cadastro de Acesso (Responsável.: Paulo e Danilo) // Cada um por sua respectiva parte
                             int operacao1 = menuAcesso();
-
                             controleAcesso(x, operacao1);
                             break;
 
@@ -187,10 +187,42 @@ public class Main {
                             procuraAcesso(x.getAcessoEstacionamento());
                             break;
                         case 3:
-                            // Adicionar Evento
+                            List<Evento> temporario = new ArrayList<>();
+
+                            String repetePergunta = "não";
+
+                            for (Evento y: x.getEventos()) {
+                                temporario.add(y);
+                                do{
+                                    System.out.println("Qual o nome do Evento ?");
+                                    String nomeEventotemp = esc.next();
+
+                                    System.out.println("Qual a data do Evento ?");
+                                    String dataEvento = esc.next();
+
+                                    System.out.println("Qual o preço do evento ?");
+                                    double precoEvento = esc.nextDouble();
+
+                                    System.out.println("Qual a horário que o mesmo abre ?");
+                                    String horaAbre2 = esc.next();
+
+                                    System.out.println("Qual a horário que o mesmo fecha ?");
+                                    String horaFecha2 = esc.next();
+
+                                    Evento tempEvento2 = new Evento(nomeEventotemp,precoEvento,dataEvento,horaAbre2,horaFecha2);
+
+                                    temporario.add(tempEvento2);
+                                    x.setEventos(temporario);
+                                }while(repetePergunta != "não");
+                            }
+
                             break;
 
                         case 4:
+                            // Adicionar Alterar Evento
+                            break;
+
+                        case 5:
                             String desejo;
 
                             System.out.println("Deseja alterar todo o contrato ? S/N");
@@ -244,7 +276,7 @@ public class Main {
                             }
                             break;
 
-                        case 5:
+                        case 6:
                             System.out.println("Encerrando Estacionamento...");
                             break;
                         default:
