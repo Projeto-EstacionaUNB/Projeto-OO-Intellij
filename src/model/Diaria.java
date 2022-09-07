@@ -1,12 +1,15 @@
 package model;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class Diaria extends Acesso {
     private double valorDiaria;
 
     public Diaria() {
     }
 
-    public Diaria(String horaEntrada, String horaSaida, String dataInicial, String dataFinal, Veiculo veiculoCliente, double valorDiaria) {
+    public Diaria(LocalTime horaEntrada, LocalTime horaSaida, LocalDate dataInicial, LocalDate dataFinal, Veiculo veiculoCliente, double valorDiaria) {
         super(horaEntrada, horaSaida, dataInicial, dataFinal, veiculoCliente);
         this.valorDiaria = valorDiaria;
     }

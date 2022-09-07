@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class Mensalista extends Acesso{
@@ -9,7 +11,7 @@ public class Mensalista extends Acesso{
     public Mensalista() {
     }
 
-    public Mensalista(String horaEntrada, String horaSaida, String dataInicial, String dataFinal, Veiculo veiculoCliente, double valorMensalista, List<String> acessosMensais) {
+    public Mensalista(LocalTime horaEntrada, LocalTime horaSaida, LocalDate dataInicial, LocalDate dataFinal, Veiculo veiculoCliente, double valorMensalista, List<String> acessosMensais) {
         super(horaEntrada, horaSaida, dataInicial, dataFinal, veiculoCliente);
         this.valorMensalista = valorMensalista;
         this.acessosMensais = acessosMensais;

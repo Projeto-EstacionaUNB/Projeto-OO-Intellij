@@ -187,7 +187,7 @@ public class Main {
                             do{
                                 operacao1 = menuAcesso();
                                 controleAcesso(x, operacao1);
-                            }while(operacao1 !=6);
+                            }while(operacao1 !=5);
 
                             break;
 
