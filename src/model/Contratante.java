@@ -2,13 +2,13 @@ package model;
 
 public class Contratante {
     private String nomeContratante;
-    private int retornoContratante;
+    private double retornoContratante;
     private double valorContratante;
 
     public Contratante() {
     }
 
-    public Contratante(String nomeContratante, int retornoContratante, double valorContratante) {
+    public Contratante(String nomeContratante, double retornoContratante, double valorContratante) {
         this.nomeContratante = nomeContratante;
         this.retornoContratante = retornoContratante;
         this.valorContratante = valorContratante;
@@ -22,7 +22,7 @@ public class Contratante {
         this.nomeContratante = nomeContratante;
     }
 
-    public int getRetornoContratante() {
+    public double getRetornoContratante() {
         return retornoContratante;
     }
 

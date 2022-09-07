@@ -1,12 +1,13 @@
 package model;
 
+import java.time.LocalTime;
 import java.util.List;
 
 public class Estacionamento {
     private String nomeEstacionamento;
     private int capacidade;
-    private String horaAbertura;
-    private String horaFechamento;
+    private LocalTime horaAbertura;
+    private LocalTime horaFechamento;
 
     private Contratante contratato;
 
@@ -17,7 +18,7 @@ public class Estacionamento {
     public Estacionamento() {
     }
 
-    public Estacionamento(String nomeEstacionamento, int capacidade, String horaAbertura, String horaFechamento, Contratante contratato, List<Evento> eventos, List<Acesso> acessoEstacionamento) {
+    public Estacionamento(String nomeEstacionamento, int capacidade, LocalTime horaAbertura, LocalTime horaFechamento, Contratante contratato, List<Evento> eventos, List<Acesso> acessoEstacionamento) {
         this.nomeEstacionamento = nomeEstacionamento;
         this.capacidade = capacidade;
         this.horaAbertura = horaAbertura;
@@ -43,19 +44,19 @@ public class Estacionamento {
         this.capacidade = capacidade;
     }
 
-    public String getHoraAbertura() {
+    public LocalTime getHoraAbertura() {
         return horaAbertura;
     }
 
-    public void setHoraAbertura(String horaAbertura) {
+    public void setHoraAbertura(LocalTime horaAbertura) {
         this.horaAbertura = horaAbertura;
     }
 
-    public String getHoraFechamento() {
+    public LocalTime getHoraFechamento() {
         return horaFechamento;
     }
 
-    public void setHoraFechamento(String horaFechamento) {
+    public void setHoraFechamento(LocalTime horaFechamento) {
         this.horaFechamento = horaFechamento;
     }
 

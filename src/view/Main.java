@@ -132,7 +132,7 @@ public class Main {
         String nomeContratante = esc.next();
 
         System.out.println("Qual o valor retornará ao prestador do serviço ? ");
-        int retornoPorcento = esc.nextInt();
+        double retornoPorcento = esc.nextDouble();
 
         tempContrato = new Contratante(nomeContratante,retornoPorcento,0);
 
@@ -144,15 +144,17 @@ public class Main {
 
         System.out.println("Qual a horário que o mesmo abre ?");
         String horaAbre = esc.next();
+        LocalTime horaAbre1 = LocalTime.parse(horaAbre);
 
         System.out.println("Qual a horário que o mesmo fecha ?");
         String horaFecha = esc.next();
+        LocalTime horaFecha1 = LocalTime.parse(horaFecha);
 
         List<Evento> tempEvento = new ArrayList<>();
 
         List<Acesso> tempAcess = new ArrayList<>();
 
-        tempEstacionamento = new Estacionamento(nomeEstacionamento1,qtdEstacionamento, horaAbre,horaFecha, tempContrato,tempEvento,tempAcess);
+        tempEstacionamento = new Estacionamento(nomeEstacionamento1,qtdEstacionamento, horaAbre1,horaFecha1, tempContrato,tempEvento,tempAcess);
 
         System.out.println("Cadastrado com sucesso!");
         System.out.println(tempEstacionamento);
@@ -265,7 +267,7 @@ public class Main {
                             if(desejo=="S") {
                                 System.out.println("Qual a horário que o mesmo abre ?");
                                 String horaAbre = esc.next();
-                                x.setHoraAbertura(horaAbre);
+                                x.setHoraAbertura(LocalTime.parse(horaAbre));
                             }
 
                             System.out.println("Deseja alterar o horário de fechamento do Estacionamento ? S/N");
@@ -274,7 +276,7 @@ public class Main {
                             if(desejo=="S") {
                                 System.out.println("Qual a horário que o mesmo fecha ?");
                                 String horaFecha = esc.next();
-                                x.setHoraFechamento(horaFecha);
+                                x.setHoraFechamento(LocalTime.parse(horaFecha));
                             }
                             break;
 
@@ -383,6 +385,11 @@ public class Main {
                 long minutos= duracao.toMinutes() % 60;
 
                 System.out.printf("%d:%2d\n",horas,minutos);
+
+                if(date1.toLocalTime().isBefore(x.getHoraAbertura()) || date1.toLocalTime().isAfter(x.getHoraFechamento())){
+                    System.out.println("O estacionamento está fechado, por isso não será possível realizar cadastro!");
+                    break;
+                }
 
                 if(horas < 1){
                     System.out.println("Digite o valor dos 15 minutos do estacionamento ");
