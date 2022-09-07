@@ -189,7 +189,7 @@ public class Main {
 
     public static void procuraEstacionamento(){
         for (Estacionamento x: estacionamento) {
-            System.out.println(x.getContratato().getNomeContratante());
+            System.out.println(x.getContratato().getNomeContratante() + " " + x.getNomeEstacionamento());
         }
     }
 
@@ -491,7 +491,7 @@ public class Main {
 
                     System.out.printf("O valor Total (com desconto): R$%.2f\n", valorHora2);
                     tempAcess = new Tempo(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,x.getDiariaTempo().getDesconto(),x.getDiariaTempo().getValorFracao());
-                    
+
                 }else if(horas >9){
                     //Diaria Diurna
                     System.out.println("O tempo excedeu 9 horas e se tornou uma diaria");
@@ -507,7 +507,7 @@ public class Main {
                     }else {
                         System.out.printf("O valor Total da Diaria Diurna: R$%.2f\n", valorDiaria);
                         tempAcess = new Diaria(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,valorDiaria);
-                        
+
                     }
                 }
 
@@ -516,7 +516,7 @@ public class Main {
                 x.setAcessoEstacionamento(acessoTemporario);
 
                 break;
-                
+
             case 2:
                 System.out.println("Acesso por Mensalista: ");
 
@@ -524,8 +524,11 @@ public class Main {
                 System.out.println("Qual a placa do veiculo associado ?");
                 String tempPlaca1 = esc.next();
 
+                boolean aparece = false;
                 for (Veiculo y: x.getListaAssociados()) {
+                    System.out.println(x.getListaAssociados());
                     if(y.getPlaca().equals(tempPlaca1) ) {
+                        aparece = true;
                         System.out.println("O veículo já está cadastrado");
                         System.out.println("o custo da mensalista esse mês é de : R$" + x.getMensalistaPreco().getValorMensalista());
 
@@ -579,37 +582,38 @@ public class Main {
                         x.setAcessoEstacionamento(acessoTemporario1);
 
 
-                    }else {
-                        System.out.println("O veículo não está na Lista de Associados");
-                        String desejo = "não";
-                        System.out.println("Cadastrar Associado ?");
-                        desejo = esc.next();
-
-                        if(Objects.equals(desejo,"sim")){
-                            System.out.println("Digite a placa do veículo ");
-                            tempPlaca = esc.next();
-
-                            System.out.println("Digite a modelo do veículo ");
-                            tempModelo = esc.next();
-
-                            System.out.println("Digite a marca do veículo ");
-                            tempMarca = esc.next();
-
-                            Veiculo tempVeiculo1 = new Veiculo(tempPlaca,tempMarca,tempModelo);
-
-                            List<Veiculo> listaTemporariaAssociados = new ArrayList<>(x.getListaAssociados());
-
-                            listaTemporariaAssociados.add(tempVeiculo1);
-
-                            x.setListaAssociados(listaTemporariaAssociados);
-
-                        }
-
-                        break;
-
                     }
 
                     }
+                if(!aparece) {
+                    System.out.println("O veículo não está na Lista de Associados");
+                    String desejo = "não";
+                    System.out.println("Cadastrar Associado (sim/não) ?");
+                    desejo = esc.next();
+
+                    if (Objects.equals(desejo, "sim")) {
+                        System.out.println("Digite a placa do veículo ");
+                        tempPlaca = esc.next();
+
+                        System.out.println("Digite a modelo do veículo ");
+                        tempModelo = esc.next();
+
+                        System.out.println("Digite a marca do veículo ");
+                        tempMarca = esc.next();
+
+                        Veiculo tempVeiculo1 = new Veiculo(tempPlaca, tempMarca, tempModelo);
+
+                        List<Veiculo> listaTemporariaAssociados = new ArrayList<>(x.getListaAssociados());
+
+                        listaTemporariaAssociados.add(tempVeiculo1);
+
+                        x.setListaAssociados(listaTemporariaAssociados);
+                        System.out.println(listaTemporariaAssociados);
+                        System.out.println(x.getListaAssociados());
+
+                    }
+                }
+
 
 
                 break;
