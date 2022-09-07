@@ -224,7 +224,35 @@ public class Main {
                             break;
 
                         case 4:
-                            // Adicionar Alterar Evento
+                            System.out.println("Qual o nome do evento e a data ,do evento que deseja alterar ?");
+                            String tempNomeEvento = esc.next();
+                            String tempDataEvento = esc.next();
+
+                            for (Evento y: x.getEventos()) {
+                               if(y.getNomeEvento().equals(tempNomeEvento) && y.getDataEvento().equals(tempDataEvento)){
+                                   String desejo = "não";
+                                   System.out.println("Deseja alterar o nome do Evento ? ");
+                                   desejo = esc.next();
+                                   if(desejo.equalsIgnoreCase("sim")){
+                                        System.out.println("Escreva o novo nome do Evento: ");
+                                        tempNomeEvento = esc.next();
+                                    }
+
+                                   desejo = "não";
+
+                                   System.out.println("Deseja alterar o data do Evento ? ");
+                                   desejo = esc.next();
+
+                                    if(desejo.equalsIgnoreCase("sim")){
+                                        System.out.println("Escreva a nova data do Evento: ");
+                                        tempDataEvento = esc.next();
+                                    }
+
+                                   y.setNomeEvento(tempNomeEvento);
+                                   y.setDataEvento(tempDataEvento);
+                               }
+                            }
+
                             break;
 
                         case 5:
