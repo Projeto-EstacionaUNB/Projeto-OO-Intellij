@@ -1,11 +1,8 @@
 package view;
 
-import java.math.RoundingMode;
-import java.text.NumberFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -387,7 +384,6 @@ public class Main {
 
                 System.out.printf("%d:%2d\n",horas,minutos);
 
-
                 if(horas < 1){
                     System.out.println("Digite o valor dos 15 minutos do estacionamento ");
                     double valorFracao = esc.nextDouble();
@@ -417,24 +413,22 @@ public class Main {
                     System.out.println("O tempo excedeu 9 horas e se tornou uma diaria");
                     System.out.println("Digite o valor da diaria ");
                     double valorDiaria = esc.nextDouble();
-                    
-                    
-                    if(NOITE.isAfter(date1.toLocalTime()) && NOITE2.isBefore(date1.toLocalTime()) ){
+
+                    System.out.println(date1.toLocalTime());
+                    if(date1.toLocalTime().isAfter(NOITE) || date1.toLocalTime().isBefore(NOITE2)){
                     //Diaria Noturna
                         System.out.println("Digite o percentual da diaria noturna");
                         double valorDiariaN= esc.nextDouble();
                         valorDiariaN = (1.00 - valorDiariaN)*valorDiaria;
-                        System.out.println("O valor Total da Diaria Noturna: R$" + valorDiariaN);
+                        System.out.printf("O valor Total da Diaria Noturna: R$%.2f\n", valorDiariaN);
                         tempAcess = new DiariaNoturna(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,valorDiaria,valorDiariaN);
 
                     }else {
-                        System.out.println("O valor Total da Diaria Diurna: R$" + valorDiaria);
+                        System.out.printf("O valor Total da Diaria Diurna: R$%.2f\n", valorDiaria);
                         tempAcess = new Diaria(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,valorDiaria);
                         
                     }
-
                 }
-
 
                 acessoTemporario.add(tempAcess);
 
