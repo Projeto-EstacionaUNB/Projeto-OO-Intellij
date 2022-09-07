@@ -5,6 +5,7 @@ import java.text.NumberFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -124,9 +125,7 @@ public class Main {
         System.out.println("------------------------------------------------------");
         System.out.println("|   Opção 1 - Acesso por comum   |");
         System.out.println("|   Opção 2 - Acesso Mensalista   |");
-        System.out.println("|   Opção 3 - Acesso Diária     |");
-        System.out.println("|   Opção 4 - Acesso Diária Noturna     |");
-        System.out.println("|   Opção 5 - Sair          |");
+        System.out.println("|   Opção 3 - Sair          |");
         int opcao = esc.nextInt();
         return opcao;
     }
@@ -187,7 +186,7 @@ public class Main {
                             do{
                                 operacao1 = menuAcesso();
                                 controleAcesso(x, operacao1);
-                            }while(operacao1 !=5);
+                            }while(operacao1 !=3);
 
                             break;
 
@@ -345,12 +344,15 @@ public class Main {
     }
 
     public static void controleAcesso(Estacionamento x, int operacao1) {
-        Acesso tempAcess;
+        Acesso tempAcess = null;
         switch (operacao1){
             case 1:
                 List<Acesso> acessoTemporario = new ArrayList<>();
                 acessoTemporario.addAll(x.getAcessoEstacionamento());
                 double desconto =0;
+                LocalTime NOITE = LocalTime.of(18,00);
+                LocalTime NOITE2 = LocalTime.of(06,00);
+                Duration NOTURNA = Duration.between(NOITE2,NOITE);
 
                 System.out.println("Digite a placa do veículo ");
                 String tempPlaca = esc.next();
@@ -385,14 +387,17 @@ public class Main {
 
                 System.out.printf("%d:%2d\n",horas,minutos);
 
-                System.out.println("Digite o valor dos 15 minutos do estacionamento ");
-                double valorFracao = esc.nextDouble();
 
                 if(horas < 1){
+                    System.out.println("Digite o valor dos 15 minutos do estacionamento ");
+                    double valorFracao = esc.nextDouble();
                     System.out.println("Acesso por 15 Minutos: ");
                     double valorMinuto = Math.ceil(minutos / 15) * valorFracao;
                     System.out.println("O valor Total: " + valorMinuto);
-                }else{
+                    tempAcess = new Tempo(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,desconto, valorFracao);
+                }else if (horas >= 1 && horas <=9 ){
+                    System.out.println("Digite o valor dos 15 minutos do estacionamento ");
+                    double valorFracao = esc.nextDouble();
                     System.out.println("Acesso por Hora Cheia: ");
                     double valorHora = Math.ceil((horas * 60) / 15) * valorFracao + Math.ceil(minutos / 15) * valorFracao;
 
@@ -405,33 +410,44 @@ public class Main {
                     double valorHora2 = valorHora * desconto;
 
                     System.out.printf("O valor Total (com desconto): R$%.2f\n", valorHora2);
+                    tempAcess = new Tempo(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,desconto, valorFracao);
+                    
+                }else if(horas >9){
+                    //Diaria Diurna
+                    System.out.println("O tempo excedeu 9 horas e se tornou uma diaria");
+                    System.out.println("Digite o valor da diaria ");
+                    double valorDiaria = esc.nextDouble();
+                    
+                    
+                    if(NOITE.isAfter(date1.toLocalTime()) && NOITE2.isBefore(date1.toLocalTime()) ){
+                    //Diaria Noturna
+                        System.out.println("Digite o percentual da diaria noturna");
+                        double valorDiariaN= esc.nextDouble();
+                        valorDiariaN = (1.00 - valorDiariaN)*valorDiaria;
+                        System.out.println("O valor Total da Diaria Noturna: R$" + valorDiariaN);
+                        tempAcess = new DiariaNoturna(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,valorDiaria,valorDiariaN);
+
+                    }else {
+                        System.out.println("O valor Total da Diaria Diurna: R$" + valorDiaria);
+                        tempAcess = new Diaria(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,valorDiaria);
+                        
+                    }
 
                 }
 
-                tempAcess = new Tempo(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,desconto, valorFracao);
 
                 acessoTemporario.add(tempAcess);
 
                 x.setAcessoEstacionamento(acessoTemporario);
 
                 break;
-
+                
             case 2:
-                System.out.println("Acesso por Diária: ");
-                tempAcess = new Diaria();
-               break;
-
-            case 3:
-                System.out.println("Acesso por Diária Noturna: ");
-                tempAcess = new DiariaNoturna();
-                break;
-
-            case 4:
                 System.out.println("Acesso por Mensalista: ");
                 tempAcess = new Mensalista();
                 break;
 
-            case 5:
+            case 3:
                 System.out.println("Cancelando cadastro...");
                 break;
 

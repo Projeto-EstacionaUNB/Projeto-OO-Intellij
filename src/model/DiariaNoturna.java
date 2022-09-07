@@ -4,17 +4,17 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class DiariaNoturna extends Diaria{
-    private int percentualDiaria;
+    private double percentualDiaria;
 
     public DiariaNoturna() {
     }
 
-    public DiariaNoturna(LocalTime horaEntrada, LocalTime horaSaida, LocalDate dataInicial, LocalDate dataFinal, Veiculo veiculoCliente, double valorDiaria, int percentualDiaria) {
+    public DiariaNoturna(LocalTime horaEntrada, LocalTime horaSaida, LocalDate dataInicial, LocalDate dataFinal, Veiculo veiculoCliente, double valorDiaria, double percentualDiaria) {
         super(horaEntrada, horaSaida, dataInicial, dataFinal, veiculoCliente, valorDiaria);
         this.percentualDiaria = percentualDiaria;
     }
 
-    public int getPercentualDiaria() {
+    public double getPercentualDiaria() {
         return percentualDiaria;
     }
 
