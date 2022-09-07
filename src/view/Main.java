@@ -542,7 +542,6 @@ public class Main {
                         System.out.println("Digite a hora de saída do veículo \n Escreva Ano-mes-diaThora:minutos");
                         saida = esc.next();
 
-
                         formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
                         date1 = LocalDateTime.parse(entrada);
@@ -557,7 +556,7 @@ public class Main {
                         minutos = duracao.toMinutes() % 60;
 
 
-                        if(date1.toLocalTime().isBefore(x.getHoraAbertura()) || date1.toLocalTime().isAfter(x.getHoraFechamento())){
+                        if(date1.toLocalTime().isBefore(x.getHoraAbertura()) && date2.toLocalTime().isAfter(x.getHoraFechamento())  || date1.toLocalTime().isAfter(x.getHoraFechamento()) && date2.toLocalTime().isBefore(x.getHoraAbertura())){
                             System.out.println("O estacionamento está fechado, por isso não será possível realizar cadastro!");
                             break;
                         }
@@ -580,7 +579,6 @@ public class Main {
                         acessoTemporario1.add(tempAcess);
 
                         x.setAcessoEstacionamento(acessoTemporario1);
-
 
                     }
 
@@ -613,8 +611,6 @@ public class Main {
 
                     }
                 }
-
-
 
                 break;
 
