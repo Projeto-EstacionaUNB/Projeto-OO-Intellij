@@ -84,6 +84,31 @@ public class Estacionamento {
         this.contratato = contratato;
     }
 
+    public List<Evento> getEventos() {
+        return eventos;
+    }
+
+    public void setEventos(List<Evento> eventos) {
+        this.eventos = eventos;
+    }
+
+    public List<Acesso> getAcessoEstacionamento() {
+        return acessoEstacionamento;
+    }
+
+    public void setAcessoEstacionamento(List<Acesso> acessoEstacionamento) {
+        this.acessoEstacionamento = acessoEstacionamento;
+    }
+
+    public List<Veiculo> getListaAssociados() {
+        return listaAssociados;
+    }
+
+    public void setListaAssociados(List<Veiculo> listaAssociados) {
+        this.listaAssociados = listaAssociados;
+    }
+
+
     public Diaria getDiariaDiurna() {
         return diariaDiurna;
     }
@@ -122,30 +147,6 @@ public class Estacionamento {
 
     public void setDiariaFracao(Tempo diariaFracao) {
         this.diariaFracao = diariaFracao;
-    }
-
-    public List<Evento> getEventos() {
-        return eventos;
-    }
-
-    public void setEventos(List<Evento> eventos) {
-        this.eventos = eventos;
-    }
-
-    public List<Acesso> getAcessoEstacionamento() {
-        return acessoEstacionamento;
-    }
-
-    public void setAcessoEstacionamento(List<Acesso> acessoEstacionamento) {
-        this.acessoEstacionamento = acessoEstacionamento;
-    }
-
-    public List<Veiculo> getListaAssociados() {
-        return listaAssociados;
-    }
-
-    public void setListaAssociados(List<Veiculo> listaAssociados) {
-        this.listaAssociados = listaAssociados;
     }
 
     public void pesquisarEstacionamento(){
