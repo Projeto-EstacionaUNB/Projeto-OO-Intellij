@@ -1,17 +1,20 @@
 package model;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class Evento {
 
     private String nomeEvento;
     private double valorEvento;
-    private String dataEvento;
-    private String horaAberturaEvento;
-    private String horaFechamentoEvento;
+    private LocalDate dataEvento;
+    private LocalTime horaAberturaEvento;
+    private LocalTime horaFechamentoEvento;
 
     public Evento() {
     }
 
-    public Evento(String nomeEvento, double valorEvento, String dataEvento, String horaAberturaEvento, String horaFechamentoEvento) {
+    public Evento(String nomeEvento, double valorEvento, LocalDate dataEvento, LocalTime horaAberturaEvento, LocalTime horaFechamentoEvento) {
         this.nomeEvento = nomeEvento;
         this.valorEvento = valorEvento;
         this.dataEvento = dataEvento;
@@ -35,27 +38,38 @@ public class Evento {
         this.valorEvento = valorEvento;
     }
 
-    public String getDataEvento() {
+    public LocalDate getDataEvento() {
         return dataEvento;
     }
 
-    public void setDataEvento(String dataEvento) {
+    public void setDataEvento(LocalDate dataEvento) {
         this.dataEvento = dataEvento;
     }
 
-    public String getHoraAberturaEvento() {
+    public LocalTime getHoraAberturaEvento() {
         return horaAberturaEvento;
     }
 
-    public void setHoraAberturaEvento(String horaAberturaEvento) {
+    public void setHoraAberturaEvento(LocalTime horaAberturaEvento) {
         this.horaAberturaEvento = horaAberturaEvento;
     }
 
-    public String getHoraFechamentoEvento() {
+    public LocalTime getHoraFechamentoEvento() {
         return horaFechamentoEvento;
     }
 
-    public void setHoraFechamentoEvento(String horaFechamentoEvento) {
+    public void setHoraFechamentoEvento(LocalTime horaFechamentoEvento) {
         this.horaFechamentoEvento = horaFechamentoEvento;
+    }
+
+    @Override
+    public String toString() {
+        return "Evento{" +
+                "nomeEvento='" + nomeEvento + '\'' +
+                ", valorEvento=" + valorEvento +
+                ", dataEvento=" + dataEvento +
+                ", horaAberturaEvento=" + horaAberturaEvento +
+                ", horaFechamentoEvento=" + horaFechamentoEvento +
+                '}';
     }
 }

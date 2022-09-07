@@ -1,6 +1,7 @@
 package view;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -21,7 +22,6 @@ public class Main {
     }
 
     public static void operacoes() {
-        Scanner escanear = new Scanner(System.in);
         estacionamento = new ArrayList<>();
         listaDeCarros = new ArrayList<>();
         List<Evento> listaDeEventos = new ArrayList<>();
@@ -57,7 +57,7 @@ public class Main {
                     do{
                         listaDeEventos.add(cadastrarEventos());
                         System.out.println("Deseja cadastrar outro evento ?");
-                        perguntaRepete = escanear.next();
+                        perguntaRepete = esc.next();
 
                     }while(perguntaRepete == "não");
                     break;
@@ -76,7 +76,6 @@ public class Main {
                     break;
             }
         }while(operacao !=6);
-        escanear.close();
     }
 
     public static int menuPrincipal(){
@@ -207,18 +206,19 @@ public class Main {
                                     System.out.println("Qual a data do Evento ?");
                                     String dataEvento = esc.next();
 
+
                                     System.out.println("Qual o preço do evento ?");
                                     double precoEvento = esc.nextDouble();
 
                                     System.out.println("Qual a horário que o mesmo abre ?");
-                                    String horaAbre2 = esc.next();
+                                    String horaAbre = esc.next();
 
                                     System.out.println("Qual a horário que o mesmo fecha ?");
-                                    String horaFecha2 = esc.next();
+                                    String horaFecha = esc.next();
 
-                                    Evento tempEvento2 = new Evento(nomeEventotemp,precoEvento,dataEvento,horaAbre2,horaFecha2);
+                                    Evento tempEvento = new Evento(nomeEventotemp,precoEvento,LocalDate.parse(dataEvento),LocalTime.parse(horaAbre),LocalTime.parse(horaFecha));
 
-                                    temporario.add(tempEvento2);
+                                    temporario.add(tempEvento);
                                     x.setEventos(temporario);
                                 }while(repetePergunta != "não");
 
@@ -228,6 +228,9 @@ public class Main {
                             System.out.println("Qual o nome do evento e a data ,do evento que deseja alterar ?");
                             String tempNomeEvento = esc.next();
                             String tempDataEvento = esc.next();
+                            LocalDate tempDataEvento1 = LocalDate.parse(tempDataEvento);
+
+
 
                             for (Evento y: x.getEventos()) {
                                if(y.getNomeEvento().equals(tempNomeEvento) && y.getDataEvento().equals(tempDataEvento)){
@@ -250,7 +253,7 @@ public class Main {
                                     }
 
                                    y.setNomeEvento(tempNomeEvento);
-                                   y.setDataEvento(tempDataEvento);
+                                   y.setDataEvento(LocalDate.parse(tempDataEvento));
                                }
                             }
 
@@ -386,7 +389,7 @@ public class Main {
         System.out.println("Qual a horário que o mesmo fecha ?");
         String horaFecha2 = esc.next();
 
-        Evento tempEvento1 = new Evento(nomeEventotemp,precoEvento,dataEvento,horaAbre2,horaFecha2);
+        Evento tempEvento1 = new Evento(nomeEventotemp,precoEvento,LocalDate.parse(dataEvento),LocalTime.parse(horaAbre2),LocalTime.parse(horaFecha2));
 
         return tempEvento1;
     }
