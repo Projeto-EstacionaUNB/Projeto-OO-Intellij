@@ -150,6 +150,7 @@ public class Main {
         String horaFecha = esc.next();
         LocalTime horaFecha1 = LocalTime.parse(horaFecha);
 
+
         List<Evento> tempEvento = new ArrayList<>();
 
         List<Acesso> tempAcess = new ArrayList<>();
@@ -333,10 +334,11 @@ public class Main {
 
                                 temp1Veiculo = new Veiculo(temp1Placa,temp1Modelo,temp1Modelo);
                                 System.out.println("Cadastrado com sucesso!");
-                                System.out.println(x.getListaAssociados());
 
                                 temp.add(temp1Veiculo);
                                 x.setListaAssociados(temp);
+
+                                System.out.println(x.getListaAssociados());
 
                             }while(repetePergunta1 != "não");
 
@@ -510,21 +512,23 @@ public class Main {
                 System.out.println("Acesso por Mensalista: ");
                 tempAcess = new Mensalista();
 
-                System.out.println("Digite o valor do acesso mensalista: ");
-                String valorMensalista = esc.next();
+                System.out.println("Qual a placa do veiculo associado ?");
+                String tempPlaca1 = esc.next();
 
-                System.out.println("Digite a placa do veículo ");
-                String temp1Placa = esc.next();
+                for (Veiculo y: x.getListaAssociados()) {
+                    if(y.getPlaca().equals(tempPlaca1) ) {
+                        System.out.println("O veículo já está cadastrado");
+                        System.out.println("o custo foi");
+                        break;
 
-                System.out.println("Digite a modelo do veículo ");
-                String temp1Modelo = esc.next();
+                    }else {
+                        System.out.println("O veículo não está na Lista de Associados");
+                        break;
 
-                System.out.println("Digite a marca do veículo ");
-                String temp1Marca = esc.next();
+                    }
 
-                Veiculo temp1Veiculo = new Veiculo(temp1Placa, temp1Marca, temp1Modelo);
+                    }
 
-                List<Acesso> acessoMensalista = new ArrayList<>();
 
                 break;
 
