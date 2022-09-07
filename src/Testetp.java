@@ -50,7 +50,6 @@ public class Testetp {
         double custo = valorHoras + valorMinutos;
         System.out.println("O custo foi de : " + custo);
 
-
         //2022-09-05T12:07
         //2022-09-05T14:40
         }
