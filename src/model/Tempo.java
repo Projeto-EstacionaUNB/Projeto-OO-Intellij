@@ -11,11 +11,21 @@ public class Tempo extends Acesso {
     public Tempo() {
     }
 
+    public Tempo(double valorFracao) {
+    }
+
+    public Tempo(double valorFracao, double desconto) {
+        this.valorFracao = valorFracao;
+        this.desconto = desconto;
+    }
+
     public Tempo(LocalTime horaEntrada, LocalTime horaSaida, LocalDate dataInicial, LocalDate dataFinal, Veiculo veiculoCliente, double valorFracao, double desconto) {
         super(horaEntrada, horaSaida, dataInicial, dataFinal, veiculoCliente);
         this.valorFracao = valorFracao;
         this.desconto = desconto;
     }
+
+
 
     public double getValorFracao() {
         return valorFracao;
@@ -33,9 +43,13 @@ public class Tempo extends Acesso {
         this.desconto = desconto;
     }
 
-    // Alterar para o calculo certo, passar a atividade para o Danilo ou o Paulo
-    public double calculaValorAcesso(String horaEntrada, String horaSaida, String dataInicial, String dataFinal, Veiculo veiculoCliente, double valorFracao, int desconto) {
-        return 0;
+
+    public double calcularValorAcesso(long minutos) {
+        return Math.ceil(minutos / 15) * valorFracao;
+    }
+
+    public double calcularValorAcesso(long horas, long minutos) {
+        return Math.ceil((horas * 60) / 15) * valorFracao + Math.ceil(minutos / 15) * valorFracao;
     }
 
     @Override

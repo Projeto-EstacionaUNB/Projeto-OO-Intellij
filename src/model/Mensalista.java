@@ -2,19 +2,20 @@ package model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 public class Mensalista extends Acesso{
     private double valorMensalista;
-    private List<String> acessosMensais;
 
     public Mensalista() {
     }
 
-    public Mensalista(LocalTime horaEntrada, LocalTime horaSaida, LocalDate dataInicial, LocalDate dataFinal, Veiculo veiculoCliente, double valorMensalista, List<String> acessosMensais) {
+    public Mensalista(double valorMensalista) {
+        this.valorMensalista = valorMensalista;
+    }
+
+    public Mensalista(LocalTime horaEntrada, LocalTime horaSaida, LocalDate dataInicial, LocalDate dataFinal, Veiculo veiculoCliente, double valorMensalista) {
         super(horaEntrada, horaSaida, dataInicial, dataFinal, veiculoCliente);
         this.valorMensalista = valorMensalista;
-        this.acessosMensais = acessosMensais;
     }
 
     public double getValorMensalista() {
@@ -25,19 +26,10 @@ public class Mensalista extends Acesso{
         this.valorMensalista = valorMensalista;
     }
 
-    public List<String> getAcessosMensais() {
-        return acessosMensais;
-    }
-
-    public void setAcessosMensais(List<String> acessosMensais) {
-        this.acessosMensais = acessosMensais;
-    }
-
-
     // Verificar Correção
 
     @Override
-    public double calculaValorAcesso() {
+    public double calcularValorAcesso() {
         return 0;
     }
 
@@ -45,7 +37,6 @@ public class Mensalista extends Acesso{
     public String toString() {
         return "Mensalista{" +
                 "valorMensalista=" + valorMensalista +
-                ", acessosMensais=" + acessosMensais +
                 ", horaEntrada='" + horaEntrada + '\'' +
                 ", horaSaida='" + horaSaida + '\'' +
                 ", dataInicial='" + dataInicial + '\'' +

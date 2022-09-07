@@ -1,7 +1,6 @@
 package model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public abstract class Acesso {
@@ -64,10 +63,6 @@ public abstract class Acesso {
         this.veiculoCliente = veiculoCliente;
     }
 
-    public double calculaValorAcesso(){
-        return 0;
-    }
-
     public void removerAcesso(){
 
     }
@@ -78,6 +73,10 @@ public abstract class Acesso {
 
     public void atualizarAcesso(){
 
+    }
+
+    public double calcularValorAcesso(){
+        return 0;
     }
 
     @Override

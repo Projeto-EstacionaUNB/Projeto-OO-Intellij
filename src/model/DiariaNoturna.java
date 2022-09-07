@@ -14,6 +14,10 @@ public class DiariaNoturna extends Diaria{
         this.percentualDiaria = percentualDiaria;
     }
 
+    public DiariaNoturna(double valorDiariaN) {
+        this.percentualDiaria = percentualDiaria;
+    }
+
     public double getPercentualDiaria() {
         return percentualDiaria;
     }
@@ -23,9 +27,8 @@ public class DiariaNoturna extends Diaria{
     }
 
     // Verificar a correção
-    @Override
-    public double calculaValorAcesso() {
-        return 0;
+    public double calcularValorAcesso(double valorDiaria) {
+        return (1.00 - percentualDiaria)* valorDiaria;
     }
 
     @Override

@@ -11,6 +11,12 @@ public class Estacionamento {
 
     private Contratante contratato;
 
+    private Diaria diariaDiurna;
+    private DiariaNoturna diariaNoturna;
+    private Mensalista mensalistaPreco;
+    private Tempo diariaTempo;
+    private Tempo diariaFracao;
+
     private List<Evento> eventos;
 
     private List<Acesso> acessoEstacionamento;
@@ -22,12 +28,17 @@ public class Estacionamento {
     public Estacionamento() {
     }
 
-    public Estacionamento(String nomeEstacionamento, int capacidade, LocalTime horaAbertura, LocalTime horaFechamento, Contratante contratato, List<Evento> eventos, List<Acesso> acessoEstacionamento, List<Veiculo> listaAssociados) {
+    public Estacionamento(String nomeEstacionamento, int capacidade, LocalTime horaAbertura, LocalTime horaFechamento, Contratante contratato, Diaria diariaDiurna, DiariaNoturna diariaNoturna, Mensalista mensalistaPreco, Tempo diariaTempo, Tempo diariaFracao, List<Evento> eventos, List<Acesso> acessoEstacionamento, List<Veiculo> listaAssociados) {
         this.nomeEstacionamento = nomeEstacionamento;
         this.capacidade = capacidade;
         this.horaAbertura = horaAbertura;
         this.horaFechamento = horaFechamento;
         this.contratato = contratato;
+        this.diariaDiurna = diariaDiurna;
+        this.diariaNoturna = diariaNoturna;
+        this.mensalistaPreco = mensalistaPreco;
+        this.diariaTempo = diariaTempo;
+        this.diariaFracao = diariaFracao;
         this.eventos = eventos;
         this.acessoEstacionamento = acessoEstacionamento;
         this.listaAssociados = listaAssociados;
@@ -73,6 +84,46 @@ public class Estacionamento {
         this.contratato = contratato;
     }
 
+    public Diaria getDiariaDiurna() {
+        return diariaDiurna;
+    }
+
+    public void setDiariaDiurna(Diaria diariaDiurna) {
+        this.diariaDiurna = diariaDiurna;
+    }
+
+    public DiariaNoturna getDiariaNoturna() {
+        return diariaNoturna;
+    }
+
+    public void setDiariaNoturna(DiariaNoturna diariaNoturna) {
+        this.diariaNoturna = diariaNoturna;
+    }
+
+    public Mensalista getMensalistaPreco() {
+        return mensalistaPreco;
+    }
+
+    public void setMensalistaPreco(Mensalista mensalistaPreco) {
+        this.mensalistaPreco = mensalistaPreco;
+    }
+
+    public Tempo getDiariaTempo() {
+        return diariaTempo;
+    }
+
+    public void setDiariaTempo(Tempo diariaTempo) {
+        this.diariaTempo = diariaTempo;
+    }
+
+    public Tempo getDiariaFracao() {
+        return diariaFracao;
+    }
+
+    public void setDiariaFracao(Tempo diariaFracao) {
+        this.diariaFracao = diariaFracao;
+    }
+
     public List<Evento> getEventos() {
         return eventos;
     }
@@ -109,6 +160,11 @@ public class Estacionamento {
                 ", horaAbertura=" + horaAbertura +
                 ", horaFechamento=" + horaFechamento +
                 ", contratato=" + contratato +
+                ", diariaDiurna=" + diariaDiurna +
+                ", diariaNoturna=" + diariaNoturna +
+                ", mensalistaPreco=" + mensalistaPreco +
+                ", diariaTempo=" + diariaTempo +
+                ", diariaFracao=" + diariaFracao +
                 ", eventos=" + eventos +
                 ", acessoEstacionamento=" + acessoEstacionamento +
                 ", listaAssociados=" + listaAssociados +
