@@ -15,10 +15,14 @@ public class Estacionamento {
 
     private List<Acesso> acessoEstacionamento;
 
+    private List<Veiculo> listaAssociados;
+
+
+
     public Estacionamento() {
     }
 
-    public Estacionamento(String nomeEstacionamento, int capacidade, LocalTime horaAbertura, LocalTime horaFechamento, Contratante contratato, List<Evento> eventos, List<Acesso> acessoEstacionamento) {
+    public Estacionamento(String nomeEstacionamento, int capacidade, LocalTime horaAbertura, LocalTime horaFechamento, Contratante contratato, List<Evento> eventos, List<Acesso> acessoEstacionamento, List<Veiculo> listaAssociados) {
         this.nomeEstacionamento = nomeEstacionamento;
         this.capacidade = capacidade;
         this.horaAbertura = horaAbertura;
@@ -26,6 +30,7 @@ public class Estacionamento {
         this.contratato = contratato;
         this.eventos = eventos;
         this.acessoEstacionamento = acessoEstacionamento;
+        this.listaAssociados = listaAssociados;
     }
 
     public String getNomeEstacionamento() {
@@ -84,6 +89,13 @@ public class Estacionamento {
         this.acessoEstacionamento = acessoEstacionamento;
     }
 
+    public List<Veiculo> getListaAssociados() {
+        return listaAssociados;
+    }
+
+    public void setListaAssociados(List<Veiculo> listaAssociados) {
+        this.listaAssociados = listaAssociados;
+    }
 
     public void pesquisarEstacionamento(){
 
@@ -94,11 +106,12 @@ public class Estacionamento {
         return "Estacionamento{" +
                 "nomeEstacionamento='" + nomeEstacionamento + '\'' +
                 ", capacidade=" + capacidade +
-                ", horaAbertura='" + horaAbertura + '\'' +
-                ", horaFechamento='" + horaFechamento + '\'' +
+                ", horaAbertura=" + horaAbertura +
+                ", horaFechamento=" + horaFechamento +
                 ", contratato=" + contratato +
                 ", eventos=" + eventos +
                 ", acessoEstacionamento=" + acessoEstacionamento +
+                ", listaAssociados=" + listaAssociados +
                 '}';
     }
 }

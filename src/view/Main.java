@@ -154,8 +154,9 @@ public class Main {
 
         List<Acesso> tempAcess = new ArrayList<>();
 
-        tempEstacionamento = new Estacionamento(nomeEstacionamento1,qtdEstacionamento, horaAbre1,horaFecha1, tempContrato,tempEvento,tempAcess);
+        List<Veiculo> tempVeiculo= new ArrayList<>();
 
+        tempEstacionamento = new Estacionamento(nomeEstacionamento1,qtdEstacionamento, horaAbre1,horaFecha1, tempContrato,tempEvento,tempAcess,tempVeiculo);
         System.out.println("Cadastrado com sucesso!");
         System.out.println(tempEstacionamento);
 
@@ -279,8 +280,32 @@ public class Main {
                                 x.setHoraFechamento(LocalTime.parse(horaFecha));
                             }
                             break;
-
                         case 6:
+                            List<Veiculo>temp = new ArrayList<>();
+
+                            String repetePergunta1 = "não";
+
+                            temp.addAll(x.getVeiculos());
+                            do{
+                                System.out.println("Digite a placa do veículo ");
+                                String temp1Placa = esc.next();
+
+                                System.out.println("Digite a modelo do veículo ");
+                                String temp1Modelo = esc.next();
+
+                                System.out.println("Digite a marca do veículo ");
+                                String temp1Marca = esc.next();
+
+                                Veiculo temp1Veiculo = new Veiculo(temp1Placa, temp1Marca, temp1Modelo);
+
+                                temp1Veiculo.add(temp1Veiculo);
+                                x.setVeiculos(temp);
+
+                            }while(repetePergunta != "não");
+
+                            break;
+
+                        case 7:
                             System.out.println("Encerrando Estacionamento...");
                             break;
                         default:
@@ -446,6 +471,23 @@ public class Main {
             case 2:
                 System.out.println("Acesso por Mensalista: ");
                 tempAcess = new Mensalista();
+
+                System.out.println("Digite o valor do acesso mensalista: ");
+                String valorMensalista = esc.next();
+
+                System.out.println("Digite a placa do veículo ");
+                String temp1Placa = esc.next();
+
+                System.out.println("Digite a modelo do veículo ");
+                String temp1Modelo = esc.next();
+
+                System.out.println("Digite a marca do veículo ");
+                String temp1Marca = esc.next();
+
+                Veiculo temp1Veiculo = new Veiculo(temp1Placa, temp1Marca, temp1Modelo);
+
+                List<Acesso> acessoMensalista = new ArrayList<>();
+
                 break;
 
             case 3:
