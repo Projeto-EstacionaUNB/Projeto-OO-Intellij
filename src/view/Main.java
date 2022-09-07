@@ -108,7 +108,8 @@ public class Main {
         System.out.println("|   Opção 3 - Adicionar Eventos   |");
         System.out.println("|   Opção 4 - Alterar Dados de Eventos     |");
         System.out.println("|   Opção 5 - Alterar Dados Estacionamentos     |");
-        System.out.println("|   Opção 6 - Sair          |");
+        System.out.println("|   Opção 6 - Cadastrar um Associado    |");
+        System.out.println("|   Opção 7 - Sair          |");
         int opcao = esc.nextInt();
         return opcao;
     }
@@ -313,8 +314,9 @@ public class Main {
 
                             String repetePergunta1 = "não";
 
-                            temp.addAll(x.getVeiculos());
+                            temp.addAll(x.getListaAssociados());
                             do{
+
                                 System.out.println("Digite a placa do veículo ");
                                 String temp1Placa = esc.next();
 
@@ -324,12 +326,16 @@ public class Main {
                                 System.out.println("Digite a marca do veículo ");
                                 String temp1Marca = esc.next();
 
-                                Veiculo temp1Veiculo = new Veiculo(temp1Placa, temp1Marca, temp1Modelo);
+                               Veiculo temp1Veiculo = new Veiculo(temp1Placa, temp1Marca, temp1Modelo);
 
-                                temp1Veiculo.add(temp1Veiculo);
-                                x.setVeiculos(temp);
+                                temp1Veiculo = new Veiculo(temp1Placa,temp1Modelo,temp1Modelo);
+                                System.out.println("Cadastrado com sucesso!");
+                                System.out.println(x.getListaAssociados());
 
-                            }while(repetePergunta != "não");
+                                temp.add(temp1Veiculo);
+                                x.setListaAssociados(temp);
+
+                            }while(repetePergunta1 != "não");
 
                             break;
 
@@ -340,7 +346,7 @@ public class Main {
                             System.out.println("Opção Inválida!");
                             break;
                     }
-                }while(operacao != 6);
+                }while(operacao != 7);
 
             }else{
                 System.out.println("Estacionamento não encontrado !");
@@ -406,16 +412,6 @@ public class Main {
                 LocalTime NOITE2 = LocalTime.of(06,00);
                 Duration NOTURNA = Duration.between(NOITE2,NOITE);
 
-                System.out.println("Digite a placa do veículo ");
-                String tempPlaca = esc.next();
-
-                System.out.println("Digite a modelo do veículo ");
-                String tempModelo = esc.next();
-
-                System.out.println("Digite a marca do veículo ");
-                String tempMarca = esc.next();
-
-                Veiculo tempVeiculo = new Veiculo(tempPlaca, tempMarca, tempModelo);
 
                 System.out.println("Digite a hora de entrada do veículo \n Escreva Ano-mes-diaThora:minutos");
                 String entrada = esc.next();
@@ -437,12 +433,23 @@ public class Main {
                 long horas = duracao.toHours();
                 long minutos= duracao.toMinutes() % 60;
 
-                System.out.printf("%d:%2d\n",horas,minutos);
 
                 if(date1.toLocalTime().isBefore(x.getHoraAbertura()) || date1.toLocalTime().isAfter(x.getHoraFechamento())){
                     System.out.println("O estacionamento está fechado, por isso não será possível realizar cadastro!");
                     break;
                 }
+
+                System.out.println("Digite a placa do veículo ");
+                String tempPlaca = esc.next();
+
+                System.out.println("Digite a modelo do veículo ");
+                String tempModelo = esc.next();
+
+                System.out.println("Digite a marca do veículo ");
+                String tempMarca = esc.next();
+
+                Veiculo tempVeiculo = new Veiculo(tempPlaca, tempMarca, tempModelo);
+                System.out.printf("%d:%2d\n",horas,minutos);
 
                 if(horas < 1){
                     System.out.println("Digite o valor dos 15 minutos do estacionamento ");
