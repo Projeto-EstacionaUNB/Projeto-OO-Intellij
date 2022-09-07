@@ -1,17 +1,22 @@
 package model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 public abstract class Acesso {
-    protected String horaEntrada;
-    protected String horaSaida;
-    protected String dataInicial;
-    protected String dataFinal;
+    protected LocalTime horaEntrada;
+    protected LocalTime horaSaida;
+    protected LocalDate dataInicial;
+    protected LocalDate dataFinal;
 
     protected Veiculo veiculoCliente;
+
 
     public Acesso() {
     }
 
-    public Acesso(String horaEntrada, String horaSaida, String dataInicial, String dataFinal, Veiculo veiculoCliente) {
+    public Acesso(LocalTime horaEntrada, LocalTime horaSaida, LocalDate dataInicial, LocalDate dataFinal, Veiculo veiculoCliente) {
         this.horaEntrada = horaEntrada;
         this.horaSaida = horaSaida;
         this.dataInicial = dataInicial;
@@ -19,35 +24,35 @@ public abstract class Acesso {
         this.veiculoCliente = veiculoCliente;
     }
 
-    public String getHoraEntrada() {
+    public LocalTime getHoraEntrada() {
         return horaEntrada;
     }
 
-    public void setHoraEntrada(String horaEntrada) {
+    public void setHoraEntrada(LocalTime horaEntrada) {
         this.horaEntrada = horaEntrada;
     }
 
-    public String getHoraSaida() {
+    public LocalTime getHoraSaida() {
         return horaSaida;
     }
 
-    public void setHoraSaida(String horaSaida) {
+    public void setHoraSaida(LocalTime horaSaida) {
         this.horaSaida = horaSaida;
     }
 
-    public String getDataInicial() {
+    public LocalDate getDataInicial() {
         return dataInicial;
     }
 
-    public void setDataInicial(String dataInicial) {
+    public void setDataInicial(LocalDate dataInicial) {
         this.dataInicial = dataInicial;
     }
 
-    public String getDataFinal() {
+    public LocalDate getDataFinal() {
         return dataFinal;
     }
 
-    public void setDataFinal(String dataFinal) {
+    public void setDataFinal(LocalDate dataFinal) {
         this.dataFinal = dataFinal;
     }
 
@@ -78,12 +83,11 @@ public abstract class Acesso {
     @Override
     public String toString() {
         return "Acesso{" +
-                "horaEntrada='" + horaEntrada + '\'' +
-                ", horaSaida='" + horaSaida + '\'' +
-                ", dataInicial='" + dataInicial + '\'' +
-                ", dataFinal='" + dataFinal + '\'' +
+                "horaEntrada=" + horaEntrada +
+                ", horaSaida=" + horaSaida +
+                ", dataInicial=" + dataInicial +
+                ", dataFinal=" + dataFinal +
                 ", veiculoCliente=" + veiculoCliente +
                 '}';
     }
-
 }

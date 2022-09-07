@@ -1,8 +1,11 @@
 package view;
 
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -74,7 +77,7 @@ public class Main {
                     System.out.println("Opção inválida, escolha novamente !");
                     break;
             }
-        }while(operacao !=5);
+        }while(operacao !=6);
         escanear.close();
     }
 
@@ -119,12 +122,11 @@ public class Main {
         System.out.println("------------------------------------------------------");
         System.out.println("***** Selecione uma ação que deseja realizar *****");
         System.out.println("------------------------------------------------------");
-        System.out.println("|   Opção 1 - Acesso por 15 Minutos   |");
-        System.out.println("|   Opção 2 - Acesso por Hora Cheia   |");
-        System.out.println("|   Opção 3 - Acesso Mensalista   |");
-        System.out.println("|   Opção 4 - Acesso Diária     |");
-        System.out.println("|   Opção 5 - Acesso Diária Noturna     |");
-        System.out.println("|   Opção 6 - Sair          |");
+        System.out.println("|   Opção 1 - Acesso por comum   |");
+        System.out.println("|   Opção 2 - Acesso Mensalista   |");
+        System.out.println("|   Opção 3 - Acesso Diária     |");
+        System.out.println("|   Opção 4 - Acesso Diária Noturna     |");
+        System.out.println("|   Opção 5 - Sair          |");
         int opcao = esc.nextInt();
         return opcao;
     }
@@ -181,9 +183,12 @@ public class Main {
 
                     switch (operacao) {
                         case 1:
-                            // Cadastro de Acesso (Responsável.: Paulo e Danilo) // Cada um por sua respectiva parte
-                            int operacao1 = menuAcesso();
-                            controleAcesso(x, operacao1);
+                            int operacao1;
+                            do{
+                                operacao1 = menuAcesso();
+                                controleAcesso(x, operacao1);
+                            }while(operacao1 !=6);
+
                             break;
 
                         case 2:
@@ -194,8 +199,7 @@ public class Main {
 
                             String repetePergunta = "não";
 
-                            for (Evento y: x.getEventos()) {
-                                temporario.add(y);
+                            temporario.addAll(x.getEventos());
                                 do{
                                     System.out.println("Qual o nome do Evento ?");
                                     String nomeEventotemp = esc.next();
@@ -217,7 +221,6 @@ public class Main {
                                     temporario.add(tempEvento2);
                                     x.setEventos(temporario);
                                 }while(repetePergunta != "não");
-                            }
 
                             break;
 
@@ -286,14 +289,13 @@ public class Main {
                             System.out.println("Opção Inválida!");
                             break;
                     }
-                }while(operacao != 5);
+                }while(operacao != 6);
 
             }else{
                 System.out.println("Estacionamento não encontrado !");
             }
         }
     }
-
 
     public static Veiculo cadastroDeVeiculos(){
         System.out.println("Qual a marca do Carro ?");
@@ -339,7 +341,6 @@ public class Main {
             System.out.println(x.getHoraSaida());
             System.out.println(x.getDataInicial());
             System.out.println(x.getDataFinal());
-
         }
     }
 
@@ -347,31 +348,90 @@ public class Main {
         Acesso tempAcess;
         switch (operacao1){
             case 1:
-                System.out.println("Acesso por 15 Minutos: ");
-                  tempAcess = new Tempo();
+                List<Acesso> acessoTemporario = new ArrayList<>();
+                acessoTemporario.addAll(x.getAcessoEstacionamento());
+                double desconto =0;
+
+                System.out.println("Digite a placa do veículo ");
+                String tempPlaca = esc.next();
+
+                System.out.println("Digite a modelo do veículo ");
+                String tempModelo = esc.next();
+
+                System.out.println("Digite a marca do veículo ");
+                String tempMarca = esc.next();
+
+                Veiculo tempVeiculo = new Veiculo(tempPlaca, tempMarca, tempModelo);
+
+                System.out.println("Digite a hora de entrada do veículo \n Escreva Ano-mes-diaThora:minutos");
+                String entrada = esc.next();
+
+                System.out.println("Digite a hora de saída do veículo \n Escreva Ano-mes-diaThora:minutos");
+                String saida = esc.next();
+
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+                LocalDateTime date1 = LocalDateTime.parse(entrada);
+                LocalDateTime date2 = LocalDateTime.parse(saida);
+
+                date1.format(formatter);
+                date2.format(formatter);
+
+                Duration duracao = Duration.between(date1, date2);
+
+                long horas = duracao.toHours();
+                long minutos= duracao.toMinutes() % 60;
+
+                System.out.printf("%d:%2d\n",horas,minutos);
+
+                System.out.println("Digite o valor dos 15 minutos do estacionamento ");
+                double valorFracao = esc.nextDouble();
+
+                if(horas < 1){
+                    System.out.println("Acesso por 15 Minutos: ");
+                    double valorMinuto = Math.ceil(minutos / 15) * valorFracao;
+                    System.out.println("O valor Total: " + valorMinuto);
+                }else{
+                    System.out.println("Acesso por Hora Cheia: ");
+                    double valorHora = Math.ceil((horas * 60) / 15) * valorFracao + Math.ceil(minutos / 15) * valorFracao;
+
+                    System.out.println("Digite o valor do desconto em decimal. Ex.: 0.20");
+                    desconto = esc.nextDouble();
+                    desconto = 1.00 - desconto;
+
+                    System.out.printf("O valor Total (sem desconto): R$%.2f\n", valorHora);
+
+                    double valorHora2 = valorHora * desconto;
+
+                    System.out.printf("O valor Total (com desconto): R$%.2f\n", valorHora2);
+
+                }
+
+                tempAcess = new Tempo(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,desconto, valorFracao);
+
+                acessoTemporario.add(tempAcess);
+
+                x.setAcessoEstacionamento(acessoTemporario);
+
                 break;
 
             case 2:
-                System.out.println("Acesso por hora cheia: ");
-                tempAcess = new Tempo();
-                break;
-
-            case 3:
                 System.out.println("Acesso por Diária: ");
                 tempAcess = new Diaria();
                break;
 
-            case 4:
+            case 3:
                 System.out.println("Acesso por Diária Noturna: ");
                 tempAcess = new DiariaNoturna();
                 break;
 
-            case 5:
+            case 4:
                 System.out.println("Acesso por Mensalista: ");
                 tempAcess = new Mensalista();
                 break;
 
-            case 6:
+            case 5:
                 System.out.println("Cancelando cadastro...");
                 break;
 

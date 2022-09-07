@@ -40,8 +40,10 @@ public class Testetp {
         double numeroFracoes = Horas * (60/Fracao);
         System.out.println("Numero de frações dentro das horas : " + numeroFracoes);
         double valorHora = numeroFracoes * ValorFracao;
+
         System.out.println("valor das horas sem desconto : " + valorHora);
         double valorHoras = valorHora * Desconto;
+
         System.out.println("valor das horas com desconto: " + valorHoras);
 
         double valorMinutos = numerofração * ValorFracao;
