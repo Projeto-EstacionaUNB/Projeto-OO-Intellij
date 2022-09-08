@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Scanner;
 
 public class Estacionamento {
     private String nomeEstacionamento;
@@ -149,8 +150,8 @@ public class Estacionamento {
         this.diariaFracao = diariaFracao;
     }
 
-    public void pesquisarEstacionamento(){
-
+    public boolean pesquisarEstacionamento(String nomePesquisa){
+        return nomePesquisa.equals(nomeEstacionamento);
     }
 
     @Override

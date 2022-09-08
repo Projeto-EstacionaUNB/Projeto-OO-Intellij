@@ -51,6 +51,19 @@ public class Main {
                     break;
 
                 case 3:
+                    System.out.println("Qual o nome do Estacionamento que deseja encontrar ?");
+                    String encontrarNome = esc.nextLine();
+                    for (Estacionamento x: estacionamento) {
+                        if(x.pesquisarEstacionamento(encontrarNome)){
+                            System.out.println("Estacionamento encontrado, você pode acessá-lo !");
+                            System.out.println("O Estacionamento: " + x.getNomeEstacionamento() + " tem o horário de abertura " + x.getHoraAbertura() + " até " + x.getHoraFechamento());
+                        }else {
+                            System.out.println("Estacionamento não existe, você pode adicionar se quiser !");
+                        }
+                    }
+                    break;
+
+                case 4:
 
                     if (estacionamento.isEmpty()){
                         System.out.println("Não existe estacionamento cadastrado!");
@@ -59,8 +72,7 @@ public class Main {
                     }
                     break;
 
-
-                case 4:
+                case 5:
                     String perguntaRepete = "não";
                     do{
                         listaDeEventos.add(cadastrarEventos());
@@ -70,11 +82,11 @@ public class Main {
                     }while(perguntaRepete == "não");
                     break;
 
-                case 5:
+                case 6:
                     procuraEstacionamento();
                     break;
 
-                case 6:
+                case 7:
                     double sum =0;
                     for (Estacionamento x: estacionamento) {
                         sum += x.getContratato().getValorContratante();
@@ -82,7 +94,7 @@ public class Main {
                     System.out.println(sum);
                     break;
 
-                case 7:
+                case 8:
                     System.out.println("Obrigado por usar o sistema :) ");
                     System.exit(0);
                     break;
@@ -91,7 +103,7 @@ public class Main {
                     System.out.println("Opção inválida, escolha novamente !");
                     break;
             }
-        }while(operacao !=7);
+        }while(operacao !=8);
     }
 
     public static int menuPrincipal(){
@@ -103,11 +115,12 @@ public class Main {
         System.out.println("------------------------------------------------------");
         System.out.println("|   Opção 1 - Cadastrar Estacionamento   |");
         System.out.println("|   Opção 2 - Entrar em um estacionamento     |");
-        System.out.println("|   Opção 3 - Apagar em um estacionamento     |");
-        System.out.println("|   Opção 4 - Cadastrar Eventos         |");
-        System.out.println("|   Opção 5 - Listar Estacionamentos    |");
-        System.out.println("|   Opção 6 - Valor Total Recebido dos Estacionamentos    |");
-        System.out.println("|   Opção 7 - Sair          |");
+        System.out.println("|   Opção 3 - Pesquisar um estacionamento     |");
+        System.out.println("|   Opção 4 - Apagar em um estacionamento     |");
+        System.out.println("|   Opção 5 - Cadastrar Eventos         |");
+        System.out.println("|   Opção 6 - Listar Estacionamentos    |");
+        System.out.println("|   Opção 7 - Valor Total Recebido dos Estacionamentos    |");
+        System.out.println("|   Opção 8 - Sair          |");
         return esc.nextInt();
     }
 
@@ -662,16 +675,7 @@ public class Main {
                     break;
                 }
 
-                System.out.println("Digite a placa do veículo ");
-                String tempPlaca = esc.next();
-
-                System.out.println("Digite a modelo do veículo ");
-                String tempModelo = esc.next();
-
-                System.out.println("Digite a marca do veículo ");
-                String tempMarca = esc.next();
-
-                Veiculo tempVeiculo = new Veiculo(tempPlaca, tempMarca, tempModelo);
+                Veiculo tempVeiculo = cadastroDeVeiculos();
                 System.out.printf("%d:%2d Horas\n",horas,minutos);
 
                 if(horas < 1){
@@ -775,18 +779,8 @@ public class Main {
                         double sum = x.getContratato().getValorContratante() + x.getMensalistaPreco().getValorMensalista() * x.getContratato().getRetornoContratante();
                         x.getContratato().setValorContratante(sum);
 
-                        System.out.println("Digite a placa do veículo ");
-                        tempPlaca = esc.next();
-
-                        System.out.println("Digite a modelo do veículo ");
-                        tempModelo = esc.next();
-
-                        System.out.println("Digite a marca do veículo ");
-                        tempMarca = esc.next();
-
-                        tempVeiculo = new Veiculo(tempPlaca, tempMarca, tempModelo);
+                        tempVeiculo = new Veiculo(y.getPlaca(), y.getMarca(), y.getModelo());
                         System.out.printf("%d:%2d Horas\n",horas,minutos);
-
 
                         tempAcess = new Mensalista(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,x.getMensalistaPreco().getValorMensalista());
 
@@ -804,16 +798,9 @@ public class Main {
                     desejo = esc.next();
 
                     if (Objects.equals(desejo, "sim")) {
-                        System.out.println("Digite a placa do veículo ");
-                        tempPlaca = esc.next();
 
-                        System.out.println("Digite a modelo do veículo ");
-                        tempModelo = esc.next();
 
-                        System.out.println("Digite a marca do veículo ");
-                        tempMarca = esc.next();
-
-                        Veiculo tempVeiculo1 = new Veiculo(tempPlaca, tempMarca, tempModelo);
+                        Veiculo tempVeiculo1 = cadastroDeVeiculos();
 
                         List<Veiculo> listaTemporariaAssociados = new ArrayList<>(x.getListaAssociados());
 
