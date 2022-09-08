@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
+import exception.*;
 import model.*;
 
 public class Main {
@@ -18,11 +19,11 @@ public class Main {
     static List<Estacionamento> estacionamento;
     static List<Veiculo> listaDeCarros;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws DescricaoEmBrancoException {
         operacoes();
     }
 
-    public static void operacoes() {
+    public static void operacoes() throws DescricaoEmBrancoException {
         estacionamento = new ArrayList<>();
         listaDeCarros = new ArrayList<>();
         List<Evento> listaDeEventos = new ArrayList<>();
@@ -147,58 +148,110 @@ public class Main {
         return esc.nextInt();
     }
 
-    public static Estacionamento cadastroEstacionamento(Estacionamento tempEstacionamento, Contratante tempContrato){
-        System.out.println("Qual o nome do contratante desse Estacionamento ?");
-        String nomeContratante = esc.next();
+    public static Estacionamento cadastroEstacionamento(Estacionamento tempEstacionamento, Contratante tempContrato) {
 
-        System.out.println("Qual a porcentagem retornará ao prestador do serviço ? Ex.:0,20 ");
-        double retornoPorcento = esc.nextDouble();
+        String tmp = esc.nextLine();
 
-        tempContrato = new Contratante(nomeContratante,retornoPorcento,0);
+        try {
+            System.out.println("Qual o nome do contratante desse Estacionamento ?");
+            String nomeContratante = esc.nextLine();
 
-        System.out.println("Qual o nome do estacionamento ?");
-        String nomeEstacionamento1 = esc.next();
+            System.out.println("Qual o valor retornará ao prestador do serviço ? ");
+            String retornoPorcento = esc.nextLine();
 
-        System.out.println("Qual a capacidade do estacionamento ?");
-        int qtdEstacionamento = esc.nextInt();
+            if (nomeContratante.isEmpty() || retornoPorcento.isEmpty()) {
+                throw new DescricaoEmBrancoException();
+            }
 
-        System.out.println("Qual a horário que o mesmo abre ?");
-        String horaAbre = esc.next();
-        LocalTime horaAbre1 = LocalTime.parse(horaAbre);
+            tempContrato = new Contratante(nomeContratante, Double.parseDouble(retornoPorcento), 0);
 
-        System.out.println("Qual a horário que o mesmo fecha ?");
-        String horaFecha = esc.next();
-        LocalTime horaFecha1 = LocalTime.parse(horaFecha);
+        } catch (DescricaoEmBrancoException e) {
+            e.printStackTrace();
+        }
 
-        System.out.println("Qual o valor padrão da fração do estacionamento(em 15 minutos) ? (Em reais)");
-        double valorFracao = esc.nextDouble();
-        Tempo tempAcessoFracao = new Tempo(valorFracao);
+        String qtdEstacionamento = null;
+        String nomeEstacionamento1 = null;
 
-        System.out.println("Qual a porcentagem do desconto hora cheia do estacionamento: Ex.: 0,20 represesenta 20% ? ");
-        double desconto = esc.nextDouble();
+        try {
+            System.out.println("Qual o nome do estacionamento ?");
+            nomeEstacionamento1 = esc.nextLine();
 
-        Tempo tempAcessoTempo = new Tempo(valorFracao,desconto);
+            System.out.println("Qual a capacidade do estacionamento ?");
+            qtdEstacionamento = esc.nextLine();
 
-        System.out.println("Qual o valor padrão da Diaria do estacionamento ? (Em reais)");
-        double valorDiaria = esc.nextDouble();
-        Diaria tempAcessoDiaria = new Diaria(valorDiaria);
+            if (nomeEstacionamento1.isEmpty() || qtdEstacionamento.isEmpty()) {
+                throw new DescricaoEmBrancoException();
+            }
+        } catch (DescricaoEmBrancoException e) {
+            e.printStackTrace();
+        }
 
-        System.out.println("Qual o percentual padrão da Diaria Noturna do estacionamento ? ");
-        double valorDiariaN= esc.nextDouble();
-        DiariaNoturna tempAcessoDiariaNoturna = new DiariaNoturna(valorDiariaN);
+        LocalTime horaAbre1 = null;
+        LocalTime horaFecha1 = null;
+        Tempo tempAcessoTempo = null;
+        Tempo tempAcessoFracao = null;
 
-        System.out.println("Qual o valor padrão do acesso dos Mensalistas do estacionamento ? (Em reais)");
-        double valorMensal = esc.nextDouble();
-        Mensalista tempAcessoMensalista = new Mensalista(valorMensal);
+        try {
+            System.out.println("Qual a horário que o mesmo abre ?");
+            String horaAbre = esc.nextLine();
 
+            System.out.println("Qual a horário que o mesmo fecha ?");
+            String horaFecha = esc.nextLine();
+
+            System.out.println("Qual o valor padrão da fração do estacionamento(em 15 minutos)");
+            String valorFracao = esc.nextLine();
+
+            System.out.println("Qual o valor padrão do desconto hora cheia do estacionamento: Ex.: 0,20 represesenta 20% ");
+            String desconto = esc.nextLine();
+
+            if (horaAbre.isEmpty() || horaFecha.isEmpty() || valorFracao.isEmpty() || desconto.isEmpty()) {
+                throw new DescricaoEmBrancoException();
+            }
+
+            horaAbre1 = LocalTime.parse(horaAbre);
+            horaFecha1 = LocalTime.parse(horaFecha);
+            tempAcessoFracao = new Tempo(valorFracao);
+
+            tempAcessoTempo = new Tempo(Double.parseDouble(valorFracao), Double.parseDouble(desconto));
+            Double.parseDouble(String.valueOf(valorFracao));
+
+        } catch (DescricaoEmBrancoException e) {
+            e.printStackTrace();
+        }
+
+        Diaria tempAcessoDiaria = null;
+        Mensalista tempAcessoMensalista = null;
+        DiariaNoturna tempAcessoDiariaNoturna = null;
+        try {
+            System.out.println("Qual o valor padrão da Diaria do estacionamento: ");
+            String valorDiaria = esc.nextLine();
+
+            System.out.println("Qual o percentual padrão da Diaria Noturna do estacionamento: ");
+            String valorDiariaN = esc.nextLine();
+
+            System.out.println("Qual o valor padrão do acesso dos Mensalistas do estacionamento");
+            String valorMensal = esc.nextLine();
+
+            if (valorDiaria.isEmpty() || valorDiariaN.isEmpty() || valorMensal.isEmpty()) {
+                throw new DescricaoEmBrancoException();
+            }
+
+            tempAcessoDiaria = new Diaria(Double.parseDouble(valorDiaria));
+            tempAcessoDiariaNoturna = new DiariaNoturna(Double.parseDouble(valorDiariaN));
+            valorMensal = String.valueOf(Double.parseDouble(valorMensal));
+            tempAcessoMensalista = new Mensalista(valorMensal);
+
+        } catch (DescricaoEmBrancoException e) {
+            e.printStackTrace();
+        }
 
         List<Evento> tempEvento = new ArrayList<>();
 
         List<Acesso> tempAcess = new ArrayList<>();
 
-        List<Veiculo> tempVeiculo= new ArrayList<>();
+        List<Veiculo> tempVeiculo = new ArrayList<>();
 
-        tempEstacionamento = new Estacionamento(nomeEstacionamento1,qtdEstacionamento, horaAbre1,horaFecha1,
+        tempEstacionamento = new Estacionamento(nomeEstacionamento1, Integer.parseInt(qtdEstacionamento), horaAbre1, horaFecha1,
                 tempContrato, tempAcessoDiaria, tempAcessoDiariaNoturna,
                 tempAcessoMensalista, tempAcessoTempo,
                 tempAcessoFracao,
@@ -499,43 +552,70 @@ public class Main {
         }
     }
 
-    public static Veiculo cadastroDeVeiculos(){
-        System.out.println("Qual a marca do Carro ?");
-        String marcaCarro = esc.next();
+    public static  Veiculo cadastroDeVeiculos() {
 
-        System.out.println("Qual a placa do Carro ?");
-        String placaCarro = esc.next();
+        Veiculo tempVeiculo = new Veiculo();
 
-        System.out.println("Qual o modelo do veículo ?");
-        String modeloCarro = esc.next();
+        String tmp = esc.nextLine();
 
-        Veiculo tempVeiculo = new Veiculo(placaCarro,marcaCarro,modeloCarro);
-        System.out.println(tempVeiculo);
+        try {
+            System.out.println("Qual a marca do Carro ?");
+            String marcaCarro = esc.nextLine();
+
+            System.out.println("Qual a placa do Carro ?");
+            String placaCarro = esc.nextLine();
+
+            System.out.println("Qual o modelo do veículo ?");
+            String modeloCarro = esc.nextLine();
+
+            if (placaCarro.isEmpty() || marcaCarro.isEmpty() || modeloCarro.isEmpty()) {
+                throw new DescricaoEmBrancoException();
+            }
+            tempVeiculo = new Veiculo(placaCarro, marcaCarro, modeloCarro);
+            System.out.println(tempVeiculo);
+
+        } catch (DescricaoEmBrancoException e) {
+            e.printStackTrace();
+        }
 
         return tempVeiculo;
     }
 
-    public static Evento cadastrarEventos(){
-        System.out.println("Qual o nome do Evento ?");
-        String nomeEventotemp = esc.next();
+    public static Evento cadastrarEventos() throws DescricaoEmBrancoException{
 
-        System.out.println("Qual a data do Evento ?");
-        String dataEvento = esc.next();
+        Evento tempEvento1 = new Evento();
 
-        System.out.println("Qual o preço do evento ?");
-        double precoEvento = esc.nextDouble();
+        String tmp = esc.nextLine();
 
-        System.out.println("Qual a horário que o mesmo abre ?");
-        String horaAbre2 = esc.next();
+        try {
 
-        System.out.println("Qual a horário que o mesmo fecha ?");
-        String horaFecha2 = esc.next();
+            System.out.println("Qual o nome do Evento ?");
+            String nomeEventotemp = esc.nextLine();
 
-        Evento tempEvento1 = new Evento(nomeEventotemp,precoEvento,LocalDate.parse(dataEvento),LocalTime.parse(horaAbre2),LocalTime.parse(horaFecha2));
+            System.out.println("Qual a data do Evento ? \nEx: 0000-00-00");
+            String dataEvento = esc.nextLine();
 
+            System.out.println("Qual o preço do evento ?");
+            String precoEvento = esc.nextLine();
+
+            System.out.println("Qual a horário que o mesmo abre ?");
+            String horaAbre2 = esc.nextLine();
+
+            System.out.println("Qual a horário que o mesmo fecha ?");
+            String horaFecha2 = esc.nextLine();
+
+            if (nomeEventotemp.isEmpty() || dataEvento.isEmpty() || precoEvento.isEmpty() || horaFecha2.isEmpty()) {
+                throw new DescricaoEmBrancoException();
+            }
+
+            tempEvento1 = new Evento(nomeEventotemp,Double.parseDouble(precoEvento),LocalDate.parse(dataEvento),LocalTime.parse(horaAbre2),LocalTime.parse(horaFecha2));
+            System.out.println(tempEvento1);
+
+        }catch(DescricaoEmBrancoException e){
+            e.printStackTrace();
+        }
         return tempEvento1;
     }
-
     public static void procuraAcesso(List<Acesso> acess){
         for (Acesso x: acess) {
             System.out.println(x.getVeiculoCliente());
@@ -554,6 +634,7 @@ public class Main {
                 double desconto =0;
                 LocalTime NOITE = LocalTime.of(18,00);
                 LocalTime NOITE2 = LocalTime.of(06,00);
+
 
                 System.out.println("Digite a hora de entrada do veículo \n Escreva Ano-mes-diaThora:minutos");
                 String entrada = esc.next();
