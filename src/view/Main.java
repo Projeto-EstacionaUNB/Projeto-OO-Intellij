@@ -19,11 +19,11 @@ public class Main {
     static List<Estacionamento> estacionamento;
     static List<Veiculo> listaDeCarros;
 
-    public static void main(String[] args) throws DescricaoEmBrancoException {
+    public static void main(String[] args) throws DescricaoEmBrancoException, ObjetoNãoEncontradoException, ValorAcessoInvalidoException {
         operacoes();
     }
 
-    public static void operacoes() throws DescricaoEmBrancoException {
+    public static void operacoes() throws DescricaoEmBrancoException, ObjetoNãoEncontradoException, ValorAcessoInvalidoException {
         estacionamento = new ArrayList<>();
         listaDeCarros = new ArrayList<>();
         List<Evento> listaDeEventos = new ArrayList<>();
@@ -44,7 +44,7 @@ public class Main {
                 case 2:
 
                     if (estacionamento.isEmpty()){
-                        System.out.println("Não existe estacionamento cadastrado!");
+                        throw new ObjetoNãoEncontradoException();
                     }else{
                         procuraNomeEstacionamento();
                     }
@@ -66,7 +66,7 @@ public class Main {
                 case 4:
 
                     if (estacionamento.isEmpty()){
-                        System.out.println("Não existe estacionamento cadastrado!");
+                        throw new ObjetoNãoEncontradoException();
                     }else{
                         procuraApagarEstacionamento();
                     }
@@ -320,7 +320,7 @@ public class Main {
             }
         }
     }
-    public static void procuraNomeEstacionamento(){
+    public static void procuraNomeEstacionamento() throws ValorAcessoInvalidoException {
         System.out.println("Escreva o nome do estacionamento que deseja entrar ?");
         String nomeProcura = esc.next();
 
@@ -639,26 +639,41 @@ public class Main {
         }
     }
 
-    public static void controleAcesso(Estacionamento x, int operacao1) {
+    public static void controleAcesso(Estacionamento x, int operacao1) throws ValorAcessoInvalidoException {
         Acesso tempAcess = null;
-        switch (operacao1){
+        switch (operacao1) {
             case 1:
                 List<Acesso> acessoTemporario = new ArrayList<>(x.getAcessoEstacionamento());
                 double desconto =0;
                 LocalTime NOITE = LocalTime.of(18,00);
                 LocalTime NOITE2 = LocalTime.of(06,00);
 
+                String entrada = null;
+                String saida = null;
 
-                System.out.println("Digite a hora de entrada do veículo \n Escreva Ano-mes-diaThora:minutos");
-                String entrada = esc.next();
+                LocalDateTime date1 = null;
+                DateTimeFormatter formatter = null;
 
-                System.out.println("Digite a hora de saída do veículo \n Escreva Ano-mes-diaThora:minutos");
-                String saida = esc.next();
+                String tmp = esc.nextLine();
 
+                try {
+                    System.out.println("Digite a hora de entrada do veículo \n Escreva Ano-mes-diaThora:minutos");
+                    entrada = esc.nextLine();
 
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                    System.out.println("Digite a hora de saída do veículo \n Escreva Ano-mes-diaThora:minutos");
+                    saida = esc.nextLine();
 
-                LocalDateTime date1 = LocalDateTime.parse(entrada);
+                    if (entrada.isEmpty() || saida.isEmpty()) {
+                        throw new DescricaoEmBrancoException();
+                    }
+
+                    formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+                } catch (DescricaoEmBrancoException e) {
+                    e.printStackTrace();
+                }
+
+                date1 = LocalDateTime.parse(entrada);
                 LocalDateTime date2 = LocalDateTime.parse(saida);
 
                 date1.format(formatter);
@@ -667,7 +682,11 @@ public class Main {
                 Duration duracao = Duration.between(date1, date2);
 
                 long horas = duracao.toHours();
-                long minutos= duracao.toMinutes() % 60;
+                long minutos = duracao.toMinutes() % 60;
+
+                if(horas <= 0 || minutos <= 0){
+                    throw new ValorAcessoInvalidoException();
+                }
 
 
                 if(date1.toLocalTime().isBefore(x.getHoraAbertura()) || date1.toLocalTime().isAfter(x.getHoraFechamento())){
@@ -678,18 +697,26 @@ public class Main {
                 Veiculo tempVeiculo = cadastroDeVeiculos();
                 System.out.printf("%d:%2d Horas\n",horas,minutos);
 
-                if(horas < 1){
+                    if (tempPlaca.isEmpty() || tempModelo.isEmpty() || tempMarca.isEmpty()) {
+                        throw new DescricaoEmBrancoException();
+                    }
+                } catch (DescricaoEmBrancoException e) {
+                    e.printStackTrace();
+                }
+                Veiculo tempVeiculo = null;
+
+                if (horas < 1) {
                     double valorMinuto = x.getDiariaTempo().calcularValorAcesso(minutos);
                     System.out.println("O valor Total: " + valorMinuto);
-                    tempAcess = new Tempo(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,x.getDiariaTempo().getDesconto(), x.getDiariaTempo().getValorFracao());
+                    tempAcess = new Tempo(date1.toLocalTime(), date2.toLocalTime(), date1.toLocalDate(), date2.toLocalDate(), tempVeiculo, x.getDiariaTempo().getDesconto(), x.getDiariaTempo().getValorFracao());
 
                     double sum = x.getContratato().getValorContratante() + valorMinuto * x.getContratato().getRetornoContratante();
                     x.getContratato().setValorContratante(sum);
 
 
-                }else if (horas >= 1 && horas <=9 ){
+                } else if (horas >= 1 && horas <= 9) {
 
-                    double valorHora = x.getDiariaTempo().calcularValorAcesso(horas,minutos);
+                    double valorHora = x.getDiariaTempo().calcularValorAcesso(horas, minutos);
 
                     System.out.printf("O valor Total (sem desconto): R$%.2f\n", valorHora);
 
@@ -698,28 +725,28 @@ public class Main {
                     double valorHora2 = valorHora * desconto;
 
                     System.out.printf("O valor Total (com desconto): R$%.2f\n", valorHora2);
-                    tempAcess = new Tempo(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,x.getDiariaTempo().getDesconto(),x.getDiariaTempo().getValorFracao());
+                    tempAcess = new Tempo(date1.toLocalTime(), date2.toLocalTime(), date1.toLocalDate(), date2.toLocalDate(), tempVeiculo, x.getDiariaTempo().getDesconto(), x.getDiariaTempo().getValorFracao());
 
                     double sum = x.getContratato().getValorContratante() + valorHora2 * x.getContratato().getRetornoContratante();
                     x.getContratato().setValorContratante(sum);
 
-                }else if(horas >9){
+                } else if (horas > 9) {
                     //Diaria Diurna
                     System.out.println("O tempo excedeu 9 horas e se tornou uma diaria");
-                    double valorDiaria = x.getDiariaTempo().calcularValorAcesso(horas,minutos);
+                    double valorDiaria = x.getDiariaTempo().calcularValorAcesso(horas, minutos);
 
                     System.out.println(date1.toLocalTime());
-                    if(date1.toLocalTime().isAfter(NOITE) || date1.toLocalTime().isBefore(NOITE2)){
-                    //Diaria Noturna
+                    if (date1.toLocalTime().isAfter(NOITE) || date1.toLocalTime().isBefore(NOITE2)) {
+                        //Diaria Noturna
                         double valorDiariaN = x.getDiariaNoturna().calcularValorAcesso(valorDiaria);
                         System.out.printf("O valor Total da Diaria Noturna: R$%.2f\n", valorDiariaN);
-                        tempAcess = new DiariaNoturna(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,x.getDiariaDiurna().getValorDiaria(),x.getDiariaNoturna().getPercentualDiaria());
+                        tempAcess = new DiariaNoturna(date1.toLocalTime(), date2.toLocalTime(), date1.toLocalDate(), date2.toLocalDate(), tempVeiculo, x.getDiariaDiurna().getValorDiaria(), x.getDiariaNoturna().getPercentualDiaria());
 
                         double sum = x.getContratato().getValorContratante() + valorDiariaN * x.getContratato().getRetornoContratante();
                         x.getContratato().setValorContratante(sum);
-                    }else {
+                    } else {
                         System.out.printf("O valor Total da Diaria Diurna: R$%.2f\n", valorDiaria);
-                        tempAcess = new Diaria(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,valorDiaria);
+                        tempAcess = new Diaria(date1.toLocalTime(), date2.toLocalTime(), date1.toLocalDate(), date2.toLocalDate(), tempVeiculo, valorDiaria);
                         double sum = x.getContratato().getValorContratante() + valorDiaria * x.getContratato().getRetornoContratante();
                         x.getContratato().setValorContratante(sum);
                     }
@@ -739,46 +766,73 @@ public class Main {
                 String tempPlaca1 = esc.next();
 
                 boolean aparece = false;
-                for (Veiculo y: x.getListaAssociados()) {
+                String tempPlaca = null;
+                String tempModelo = null;
+                String tempMarca = null;
+                for (Veiculo y : x.getListaAssociados()) {
                     System.out.println(x.getListaAssociados());
-                    if(y.getPlaca().equals(tempPlaca1) ) {
+                    if (y.getPlaca().equals(tempPlaca1)) {
                         aparece = true;
                         System.out.println("O veículo já está cadastrado");
                         System.out.println("o custo da mensalista esse mês é de : R$" + x.getMensalistaPreco().getValorMensalista());
 
                         List<Acesso> acessoTemporario1 = new ArrayList<>(x.getAcessoEstacionamento());
-                        desconto =0;
+                        desconto = 0;
+
+                        String tmp1 = esc.nextLine();
+                        try {
+                            System.out.println("Digite a hora de entrada do veículo \n Escreva Ano-mes-diaThora:minutos");
+                            entrada = esc.next();
+
+                            System.out.println("Digite a hora de saída do veículo \n Escreva Ano-mes-diaThora:minutos");
+                            saida = esc.next();
+
+                            if(entrada.isEmpty() || saida.isEmpty()){
+                                throw new DescricaoEmBrancoException();
+                            }
+
+                            formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
 
-                        System.out.println("Digite a hora de entrada do veículo \n Escreva Ano-mes-diaThora:minutos");
-                        entrada = esc.next();
+                            date1 = LocalDateTime.parse(entrada);
+                            date2 = LocalDateTime.parse(saida);
 
-                        System.out.println("Digite a hora de saída do veículo \n Escreva Ano-mes-diaThora:minutos");
-                        saida = esc.next();
-
-                        formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-
-                        date1 = LocalDateTime.parse(entrada);
-                        date2 = LocalDateTime.parse(saida);
-
-                        date1.format(formatter);
-                        date2.format(formatter);
-
-                        duracao = Duration.between(date1, date2);
-
-                        horas = duracao.toHours();
-                        minutos = duracao.toMinutes() % 60;
+                            date1.format(formatter);
+                            date2.format(formatter);
 
 
-                        if(date1.toLocalTime().isBefore(x.getHoraAbertura()) && date2.toLocalTime().isAfter(x.getHoraFechamento())  || date1.toLocalTime().isAfter(x.getHoraFechamento()) && date2.toLocalTime().isBefore(x.getHoraAbertura())){
+                            duracao = Duration.between(date1, date2);
+
+                            horas = duracao.toHours();
+                            minutos = duracao.toMinutes() % 60;
+
+                            if(horas <= 0 || minutos <=0){
+                                throw new ValorAcessoInvalidoException();
+                            }
+
+
+
+                        if (date1.toLocalTime().isBefore(x.getHoraAbertura()) && date2.toLocalTime().isAfter(x.getHoraFechamento()) || date1.toLocalTime().isAfter(x.getHoraFechamento()) && date2.toLocalTime().isBefore(x.getHoraAbertura())) {
                             System.out.println("O estacionamento está fechado, por isso não será possível realizar cadastro!");
                             break;
                         }
 
 
+
                         double sum = x.getContratato().getValorContratante() + x.getMensalistaPreco().getValorMensalista() * x.getContratato().getRetornoContratante();
                         x.getContratato().setValorContratante(sum);
 
+                        System.out.println("Digite a placa do veículo ");
+                        tempPlaca = esc.next();
+
+                        System.out.println("Digite a modelo do veículo ");
+                        tempModelo = esc.next();
+
+                        System.out.println("Digite a marca do veículo ");
+                        tempMarca = esc.next();
+
+                        tempVeiculo = new Veiculo(tempPlaca, tempMarca, tempModelo);
+                        System.out.printf("%d:%2d Horas\n", horas, minutos);
                         tempVeiculo = new Veiculo(y.getPlaca(), y.getMarca(), y.getModelo());
                         System.out.printf("%d:%2d Horas\n",horas,minutos);
 
@@ -788,19 +842,33 @@ public class Main {
 
                         x.setAcessoEstacionamento(acessoTemporario1);
 
+                        }catch(DescricaoEmBrancoException e){
+                            e.printStackTrace();
+                        }
                     }
 
-                    }
-                if(!aparece) {
+                }
+                if (!aparece) {
                     System.out.println("O veículo não está na Lista de Associados");
                     String desejo = "não";
+
+                    try{
                     System.out.println("Cadastrar Associado (sim/não) ?");
                     desejo = esc.next();
 
                     if (Objects.equals(desejo, "sim")) {
+                        System.out.println("Digite a placa do veículo ");
+                        tempPlaca = esc.next();
+
+                        System.out.println("Digite a modelo do veículo ");
+                        tempModelo = esc.next();
+
+                        System.out.println("Digite a marca do veículo ");
+                        tempMarca = esc.next();
+
+                        Veiculo tempVeiculo1 = new Veiculo(tempPlaca, tempMarca, tempModelo);
 
 
-                        Veiculo tempVeiculo1 = cadastroDeVeiculos();
 
                         List<Veiculo> listaTemporariaAssociados = new ArrayList<>(x.getListaAssociados());
 
@@ -810,7 +878,11 @@ public class Main {
                         System.out.println(listaTemporariaAssociados);
                         System.out.println(x.getListaAssociados());
 
+                    }catch(DescricaoEmBrancoException e){
+                             e.printStackTrace();
                     }
+
+
                 }
 
                 break;
