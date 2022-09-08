@@ -18,6 +18,9 @@ public class DiariaNoturna extends Diaria{
         this.percentualDiaria = percentualDiaria;
     }
 
+    public DiariaNoturna(String valorDiariaN) {
+    }
+
     public double getPercentualDiaria() {
         return percentualDiaria;
     }

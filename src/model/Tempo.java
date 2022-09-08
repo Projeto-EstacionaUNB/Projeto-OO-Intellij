@@ -25,6 +25,11 @@ public class Tempo extends Acesso {
         this.desconto = desconto;
     }
 
+    public Tempo(double valorFracao, String desconto) {
+    }
+
+    public Tempo(String valorFracao) {
+    }
 
 
     public double getValorFracao() {

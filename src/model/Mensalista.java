@@ -18,6 +18,9 @@ public class Mensalista extends Acesso{
         this.valorMensalista = valorMensalista;
     }
 
+    public Mensalista(String valorMensal) {
+    }
+
     public double getValorMensalista() {
         return valorMensalista;
     }

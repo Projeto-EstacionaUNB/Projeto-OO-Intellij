@@ -11,7 +11,7 @@ public class Evento {
     private LocalTime horaAberturaEvento;
     private LocalTime horaFechamentoEvento;
 
-    public Evento() {
+    public Evento(String nomeEventotemp, String precoEvento, LocalDate parse, LocalTime horaAberturaEvento, LocalTime horaFechamentoEvento) {
     }
 
     public Evento(String nomeEvento, double valorEvento, LocalDate dataEvento, LocalTime horaAberturaEvento, LocalTime horaFechamentoEvento) {
@@ -20,6 +20,10 @@ public class Evento {
         this.dataEvento = dataEvento;
         this.horaAberturaEvento = horaAberturaEvento;
         this.horaFechamentoEvento = horaFechamentoEvento;
+    }
+
+    public Evento() {
+
     }
 
     public String getNomeEvento() {
