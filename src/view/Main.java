@@ -50,6 +50,16 @@ public class Main {
                     break;
 
                 case 3:
+
+                    if (estacionamento.isEmpty()){
+                        System.out.println("Não existe estacionamento cadastrado!");
+                    }else{
+                        procuraApagarEstacionamento();
+                    }
+                    break;
+
+
+                case 4:
                     String perguntaRepete = "não";
                     do{
                         listaDeEventos.add(cadastrarEventos());
@@ -59,11 +69,11 @@ public class Main {
                     }while(perguntaRepete == "não");
                     break;
 
-                case 4:
+                case 5:
                     procuraEstacionamento();
                     break;
 
-                case 5:
+                case 6:
                     double sum =0;
                     for (Estacionamento x: estacionamento) {
                         sum += x.getContratato().getValorContratante();
@@ -71,7 +81,7 @@ public class Main {
                     System.out.println(sum);
                     break;
 
-                case 6:
+                case 7:
                     System.out.println("Obrigado por usar o sistema :) ");
                     System.exit(0);
                     break;
@@ -80,7 +90,7 @@ public class Main {
                     System.out.println("Opção inválida, escolha novamente !");
                     break;
             }
-        }while(operacao !=6);
+        }while(operacao !=7);
     }
 
     public static int menuPrincipal(){
@@ -92,10 +102,11 @@ public class Main {
         System.out.println("------------------------------------------------------");
         System.out.println("|   Opção 1 - Cadastrar Estacionamento   |");
         System.out.println("|   Opção 2 - Entrar em um estacionamento     |");
-        System.out.println("|   Opção 3 - Cadastrar Eventos         |");
-        System.out.println("|   Opção 4 - Listar Estacionamentos    |");
-        System.out.println("|   Opção 5 - Valor Total Recebido dos Estacionamentos    |");
-        System.out.println("|   Opção 6 - Sair          |");
+        System.out.println("|   Opção 3 - Apagar em um estacionamento     |");
+        System.out.println("|   Opção 4 - Cadastrar Eventos         |");
+        System.out.println("|   Opção 5 - Listar Estacionamentos    |");
+        System.out.println("|   Opção 6 - Valor Total Recebido dos Estacionamentos    |");
+        System.out.println("|   Opção 7 - Sair          |");
         return esc.nextInt();
     }
 
@@ -134,7 +145,7 @@ public class Main {
         System.out.println("Qual o nome do contratante desse Estacionamento ?");
         String nomeContratante = esc.next();
 
-        System.out.println("Qual o valor retornará ao prestador do serviço ? ");
+        System.out.println("Qual a porcentagem retornará ao prestador do serviço ? Ex.:0,20 ");
         double retornoPorcento = esc.nextDouble();
 
         tempContrato = new Contratante(nomeContratante,retornoPorcento,0);
@@ -153,24 +164,24 @@ public class Main {
         String horaFecha = esc.next();
         LocalTime horaFecha1 = LocalTime.parse(horaFecha);
 
-        System.out.println("Qual o valor padrão da fração do estacionamento(em 15 minutos)");
+        System.out.println("Qual o valor padrão da fração do estacionamento(em 15 minutos) ? (Em reais)");
         double valorFracao = esc.nextDouble();
         Tempo tempAcessoFracao = new Tempo(valorFracao);
 
-        System.out.println("Qual o valor padrão do desconto hora cheia do estacionamento: Ex.: 0,20 represesenta 20% ");
+        System.out.println("Qual a porcentagem do desconto hora cheia do estacionamento: Ex.: 0,20 represesenta 20% ? ");
         double desconto = esc.nextDouble();
 
         Tempo tempAcessoTempo = new Tempo(valorFracao,desconto);
 
-        System.out.println("Qual o valor padrão da Diaria do estacionamento: ");
+        System.out.println("Qual o valor padrão da Diaria do estacionamento ? (Em reais)");
         double valorDiaria = esc.nextDouble();
         Diaria tempAcessoDiaria = new Diaria(valorDiaria);
 
-        System.out.println("Qual o percentual padrão da Diaria Noturna do estacionamento: ");
+        System.out.println("Qual o percentual padrão da Diaria Noturna do estacionamento ? ");
         double valorDiariaN= esc.nextDouble();
         DiariaNoturna tempAcessoDiariaNoturna = new DiariaNoturna(valorDiariaN);
 
-        System.out.println("Qual o valor padrão do acesso dos Mensalistas do estacionamento");
+        System.out.println("Qual o valor padrão do acesso dos Mensalistas do estacionamento ? (Em reais)");
         double valorMensal = esc.nextDouble();
         Mensalista tempAcessoMensalista = new Mensalista(valorMensal);
 
@@ -186,9 +197,7 @@ public class Main {
                 tempAcessoMensalista, tempAcessoTempo,
                 tempAcessoFracao,
                 tempEvento,tempAcess,tempVeiculo);
-        System.out.println("Cadastrado com sucesso!");
-        System.out.println(tempEstacionamento);
-
+        System.out.println("Estacionamento, cadastrado com sucesso!");
         return tempEstacionamento;
     }
 
@@ -198,6 +207,17 @@ public class Main {
         }
     }
 
+    public static void procuraApagarEstacionamento() {
+        System.out.println("Escreva o nome do estacionamento que deseja entrar ?");
+        String nomeProcura = esc.next();
+
+        for (Estacionamento x : estacionamento) {
+            if (nomeProcura.equals(x.getNomeEstacionamento())) {
+                estacionamento.remove(x);
+                break;
+            }
+        }
+    }
     public static void procuraNomeEstacionamento(){
         System.out.println("Escreva o nome do estacionamento que deseja entrar ?");
         String nomeProcura = esc.next();
