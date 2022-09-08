@@ -320,7 +320,7 @@ public class Main {
             }
         }
     }
-    public static void procuraNomeEstacionamento() throws ValorAcessoInvalidoException {
+    public static void procuraNomeEstacionamento() throws ValorAcessoInvalidoException, DescricaoEmBrancoException {
         System.out.println("Escreva o nome do estacionamento que deseja entrar ?");
         String nomeProcura = esc.next();
 
@@ -639,7 +639,7 @@ public class Main {
         }
     }
 
-    public static void controleAcesso(Estacionamento x, int operacao1) throws ValorAcessoInvalidoException {
+    public static void controleAcesso(Estacionamento x, int operacao1) throws ValorAcessoInvalidoException, DescricaoEmBrancoException {
         Acesso tempAcess = null;
         switch (operacao1) {
             case 1:
@@ -697,13 +697,6 @@ public class Main {
                 Veiculo tempVeiculo = cadastroDeVeiculos();
                 System.out.printf("%d:%2d Horas\n",horas,minutos);
 
-                    if (tempPlaca.isEmpty() || tempModelo.isEmpty() || tempMarca.isEmpty()) {
-                        throw new DescricaoEmBrancoException();
-                    }
-                } catch (DescricaoEmBrancoException e) {
-                    e.printStackTrace();
-                }
-                Veiculo tempVeiculo = null;
 
                 if (horas < 1) {
                     double valorMinuto = x.getDiariaTempo().calcularValorAcesso(minutos);
@@ -852,22 +845,12 @@ public class Main {
                     System.out.println("O veículo não está na Lista de Associados");
                     String desejo = "não";
 
-                    try{
                     System.out.println("Cadastrar Associado (sim/não) ?");
                     desejo = esc.next();
 
                     if (Objects.equals(desejo, "sim")) {
-                        System.out.println("Digite a placa do veículo ");
-                        tempPlaca = esc.next();
 
-                        System.out.println("Digite a modelo do veículo ");
-                        tempModelo = esc.next();
-
-                        System.out.println("Digite a marca do veículo ");
-                        tempMarca = esc.next();
-
-                        Veiculo tempVeiculo1 = new Veiculo(tempPlaca, tempMarca, tempModelo);
-
+                        Veiculo tempVeiculo1 = cadastroDeVeiculos();
 
 
                         List<Veiculo> listaTemporariaAssociados = new ArrayList<>(x.getListaAssociados());
@@ -878,11 +861,7 @@ public class Main {
                         System.out.println(listaTemporariaAssociados);
                         System.out.println(x.getListaAssociados());
 
-                    }catch(DescricaoEmBrancoException e){
-                             e.printStackTrace();
                     }
-
-
                 }
 
                 break;
