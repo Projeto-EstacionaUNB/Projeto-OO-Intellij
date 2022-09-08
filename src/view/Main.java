@@ -57,6 +57,7 @@ public class Main {
                         if(x.pesquisarEstacionamento(encontrarNome)){
                             System.out.println("Estacionamento encontrado, você pode acessá-lo !");
                             System.out.println("O Estacionamento: " + x.getNomeEstacionamento() + " tem o horário de abertura " + x.getHoraAbertura() + " até " + x.getHoraFechamento());
+
                         }else {
                             System.out.println("Estacionamento não existe, você pode adicionar se quiser !");
                         }
