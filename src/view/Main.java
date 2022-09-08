@@ -42,10 +42,6 @@ public class Main {
                     break;
 
                 case 2:
-                    listaDeCarros.add(cadastroDeVeiculos());
-                    break;
-
-                case 3:
 
                     if (estacionamento.isEmpty()){
                         System.out.println("Não existe estacionamento cadastrado!");
@@ -53,6 +49,16 @@ public class Main {
                         procuraNomeEstacionamento();
                     }
                     break;
+
+                case 3:
+
+                    if (estacionamento.isEmpty()){
+                        System.out.println("Não existe estacionamento cadastrado!");
+                    }else{
+                        procuraApagarEstacionamento();
+                    }
+                    break;
+
 
                 case 4:
                     String perguntaRepete = "não";
@@ -69,6 +75,14 @@ public class Main {
                     break;
 
                 case 6:
+                    double sum =0;
+                    for (Estacionamento x: estacionamento) {
+                        sum += x.getContratato().getValorContratante();
+                    }
+                    System.out.println(sum);
+                    break;
+
+                case 7:
                     System.out.println("Obrigado por usar o sistema :) ");
                     System.exit(0);
                     break;
@@ -77,7 +91,7 @@ public class Main {
                     System.out.println("Opção inválida, escolha novamente !");
                     break;
             }
-        }while(operacao !=6);
+        }while(operacao !=7);
     }
 
     public static int menuPrincipal(){
@@ -88,11 +102,12 @@ public class Main {
         System.out.println("***** Selecione uma ação que deseja realizar *****");
         System.out.println("------------------------------------------------------");
         System.out.println("|   Opção 1 - Cadastrar Estacionamento   |");
-        System.out.println("|   Opção 2 - Cadastrar Veiculos   |");
-        System.out.println("|   Opção 3 - Entrar em um estacionamento     |");
+        System.out.println("|   Opção 2 - Entrar em um estacionamento     |");
+        System.out.println("|   Opção 3 - Apagar em um estacionamento     |");
         System.out.println("|   Opção 4 - Cadastrar Eventos         |");
         System.out.println("|   Opção 5 - Listar Estacionamentos    |");
-        System.out.println("|   Opção 6 - Sair          |");
+        System.out.println("|   Opção 6 - Valor Total Recebido dos Estacionamentos    |");
+        System.out.println("|   Opção 7 - Sair          |");
         return esc.nextInt();
     }
 
@@ -104,12 +119,19 @@ public class Main {
         System.out.println("***** Selecione uma ação que deseja realizar *****");
         System.out.println("------------------------------------------------------");
         System.out.println("|   Opção 1 - Cadastrar Acesso   |");
-        System.out.println("|   Opção 2 - Listar Acesso   |");
-        System.out.println("|   Opção 3 - Adicionar Eventos   |");
-        System.out.println("|   Opção 4 - Alterar Dados de Eventos     |");
-        System.out.println("|   Opção 5 - Alterar Dados Estacionamentos     |");
-        System.out.println("|   Opção 6 - Cadastrar um Associado    |");
-        System.out.println("|   Opção 7 - Sair          |");
+        System.out.println("|   Opção 2 - Listar Acessos   |");
+        System.out.println("|   Opção 3 - Pesquisar Acesso   |");
+        System.out.println("|   Opção 4 - Alterar Acessos     |");
+        System.out.println("|   Opção 5 - Apagar Acessos     |");
+        System.out.println("|   Opção 6 - Pesquisar Evento    |");
+        System.out.println("|   Opção 7 - Listar Eventos   |");
+        System.out.println("|   Opção 8 - Adicionar Eventos   |");
+        System.out.println("|   Opção 9 - Alterar Dados de Eventos     |");
+        System.out.println("|   Opção 10 - Apagar Evento     |");
+        System.out.println("|   Opção 11 - Alterar Dados Estacionamentos     |");
+        System.out.println("|   Opção 12 - Cadastrar um Associado    |");
+        System.out.println("|   Opção 13 - Verificar o valor total do Contratante   |");
+        System.out.println("|   Opção 14 - Sair          |");
         return esc.nextInt();
     }
 
@@ -233,13 +255,8 @@ public class Main {
                 tempContrato, tempAcessoDiaria, tempAcessoDiariaNoturna,
                 tempAcessoMensalista, tempAcessoTempo,
                 tempAcessoFracao,
-                tempEvento, tempAcess, tempVeiculo);
-        System.out.println("Cadastrado com sucesso!");
-        System.out.println(tempEstacionamento);
-
-        // }catch(DescricaoEmBrancoException e){
-        //     e.printStackTrace();
-        // }
+                tempEvento,tempAcess,tempVeiculo);
+        System.out.println("Estacionamento, cadastrado com sucesso!");
         return tempEstacionamento;
     }
 
@@ -249,6 +266,47 @@ public class Main {
         }
     }
 
+    public static void listaEvento(Estacionamento y){
+        for (Evento x: y.getEventos()) {
+            System.out.println(x.getNomeEvento() + " - " + x.getDataEvento() + " - " + x.getDataEvento());
+        }
+    }
+
+    public static void procuraEvento(Estacionamento y){
+        System.out.println("Digite o nome do Evento: ");
+        String nomeProcura = esc.nextLine();
+
+        for (Evento x: y.getEventos()) {
+            if(nomeProcura.equalsIgnoreCase(x.getNomeEvento())){
+                System.out.println("Evento Encontrado !");
+                System.out.println(x.getNomeEvento() + " - " + x.getDataEvento() + " - " + x.getDataEvento());
+            }
+        }
+    }
+
+    public static void procuraApagarEvento(Estacionamento x, List<Evento> tempEvento) {
+        System.out.println("Escreva o nome do evento que deseja encontrar ?");
+        String nomeProcura = esc.nextLine();
+
+        for (Evento y : x.getEventos()) {
+            if (nomeProcura.equals(y.getNomeEvento())){
+                tempEvento.remove(y);
+                break;
+            }
+        }
+    }
+
+    public static void procuraApagarEstacionamento() {
+        System.out.println("Escreva o nome do estacionamento que deseja entrar ?");
+        String nomeProcura = esc.next();
+
+        for (Estacionamento x : estacionamento) {
+            if (nomeProcura.equals(x.getNomeEstacionamento())) {
+                estacionamento.remove(x);
+                break;
+            }
+        }
+    }
     public static void procuraNomeEstacionamento(){
         System.out.println("Escreva o nome do estacionamento que deseja entrar ?");
         String nomeProcura = esc.next();
@@ -273,7 +331,60 @@ public class Main {
                         case 2:
                             procuraAcesso(x.getAcessoEstacionamento());
                             break;
+
                         case 3:
+                            System.out.println("Digite o numero e letra da placa: ");
+                            String placaProcuraAcesso = esc.nextLine();
+
+                            System.out.println("Digite a Data em que aconteceu o Acesso");
+                            String dataProcuraAcesso = esc.nextLine();
+                            LocalDate dataProcuraAcesso1 = LocalDate.parse(dataProcuraAcesso);
+
+                            for (Acesso y: x.getAcessoEstacionamento()) {
+                                if(placaProcuraAcesso.equalsIgnoreCase(y.getVeiculoCliente().getPlaca()) && dataProcuraAcesso1.equals(y.getDataInicial())){
+                                    System.out.println("Acesso Encontrado !");
+                                    System.out.println("Acesso: " + y.getVeiculoCliente().getPlaca() + " - " + y.getDataInicial() + " - " + y.getDataFinal() + " - " + y.getHoraEntrada() + " - " + y.getHoraSaida());
+                                }
+                            }
+                            break;
+
+                        case 4:
+                            System.out.println("Qual a placa do Véiculo ,deseja encontrar os Acessos ?");
+                            String placaPesquisa = esc.next();
+
+                            for (Acesso y: x.getAcessoEstacionamento()) {
+                                if (y.getVeiculoCliente().getPlaca().equals(placaPesquisa)) {
+                                    System.out.println("Acesso: " + y.getVeiculoCliente().getPlaca() + " - " + y.getDataInicial() + " - " + y.getDataFinal() + " - " + y.getHoraEntrada() + " - " + y.getHoraSaida());
+                                }
+                            }
+
+                        case 5:
+                            System.out.println("Qual a placa do Véiculo ,deseja encontrar os Acessos e logo em seguida apagar ?");
+                            placaPesquisa = esc.next();
+
+                            for (Acesso y: x.getAcessoEstacionamento()) {
+                                if (y.getVeiculoCliente().getPlaca().equals(placaPesquisa)) {
+                                    System.out.println("Acesso :" + y.getVeiculoCliente().getPlaca() + " - " + y.getDataInicial() + " - " + y.getDataFinal() + " - " + y.getHoraEntrada() + " - " + y.getHoraSaida());
+                                    String apagarEsse = "não";
+                                    System.out.println("Deseja apagar esse Acesso ? sim/não");
+                                    apagarEsse = esc.nextLine();
+                                    if(Objects.equals(apagarEsse,"sim")){
+                                        x.getAcessoEstacionamento().remove(y);
+                                        break;
+                                    }
+                                }
+                            }
+                            break;
+
+                        case 6:
+                            procuraEvento(x);
+                            break;
+
+                        case 7:
+                            listaEvento(x);
+                            break;
+
+                        case 8:
                             List<Evento> temporario = new ArrayList<>();
 
                             String repetePergunta = "não";
@@ -304,7 +415,7 @@ public class Main {
 
                             break;
 
-                        case 4:
+                        case 9:
                             System.out.println("Qual o nome do evento e a data ,do evento que deseja alterar ?");
                             String tempNomeEvento = esc.next();
                             String tempDataEvento = esc.next();
@@ -337,7 +448,10 @@ public class Main {
 
                             break;
 
-                        case 5:
+                        case 10:
+                            procuraApagarEvento(x,x.getEventos());
+                            break;
+                        case 11:
                             String desejo;
 
                             System.out.println("Deseja alterar todo o contrato ? S/N");
@@ -390,7 +504,7 @@ public class Main {
                                 x.setHoraFechamento(LocalTime.parse(horaFecha));
                             }
                             break;
-                        case 6:
+                        case 12:
 
                             String repetePergunta1 = "não";
 
@@ -420,14 +534,17 @@ public class Main {
 
                             break;
 
-                        case 7:
+                        case 13:
+                            System.out.println(x.getContratato().getValorContratante());
+                            break;
+                        case 14:
                             System.out.println("Encerrando Estacionamento...");
                             break;
                         default:
                             System.out.println("Opção Inválida!");
                             break;
                     }
-                }while(operacao != 7);
+                }while(operacao != 14);
 
             }else{
                 System.out.println("Estacionamento não encontrado !");
@@ -562,6 +679,10 @@ public class Main {
                     System.out.println("O valor Total: " + valorMinuto);
                     tempAcess = new Tempo(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,x.getDiariaTempo().getDesconto(), x.getDiariaTempo().getValorFracao());
 
+                    double sum = x.getContratato().getValorContratante() + valorMinuto * x.getContratato().getRetornoContratante();
+                    x.getContratato().setValorContratante(sum);
+
+
                 }else if (horas >= 1 && horas <=9 ){
 
                     double valorHora = x.getDiariaTempo().calcularValorAcesso(horas,minutos);
@@ -575,6 +696,9 @@ public class Main {
                     System.out.printf("O valor Total (com desconto): R$%.2f\n", valorHora2);
                     tempAcess = new Tempo(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,x.getDiariaTempo().getDesconto(),x.getDiariaTempo().getValorFracao());
 
+                    double sum = x.getContratato().getValorContratante() + valorHora2 * x.getContratato().getRetornoContratante();
+                    x.getContratato().setValorContratante(sum);
+
                 }else if(horas >9){
                     //Diaria Diurna
                     System.out.println("O tempo excedeu 9 horas e se tornou uma diaria");
@@ -587,10 +711,13 @@ public class Main {
                         System.out.printf("O valor Total da Diaria Noturna: R$%.2f\n", valorDiariaN);
                         tempAcess = new DiariaNoturna(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,x.getDiariaDiurna().getValorDiaria(),x.getDiariaNoturna().getPercentualDiaria());
 
+                        double sum = x.getContratato().getValorContratante() + valorDiariaN * x.getContratato().getRetornoContratante();
+                        x.getContratato().setValorContratante(sum);
                     }else {
                         System.out.printf("O valor Total da Diaria Diurna: R$%.2f\n", valorDiaria);
                         tempAcess = new Diaria(date1.toLocalTime(),date2.toLocalTime(),date1.toLocalDate(),date2.toLocalDate(),tempVeiculo,valorDiaria);
-
+                        double sum = x.getContratato().getValorContratante() + valorDiaria * x.getContratato().getRetornoContratante();
+                        x.getContratato().setValorContratante(sum);
                     }
                 }
 
@@ -643,6 +770,10 @@ public class Main {
                             System.out.println("O estacionamento está fechado, por isso não será possível realizar cadastro!");
                             break;
                         }
+
+
+                        double sum = x.getContratato().getValorContratante() + x.getMensalistaPreco().getValorMensalista() * x.getContratato().getRetornoContratante();
+                        x.getContratato().setValorContratante(sum);
 
                         System.out.println("Digite a placa do veículo ");
                         tempPlaca = esc.next();
